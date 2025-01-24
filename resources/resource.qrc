@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>TradeHelperForPoe.ico</file>
+    </qresource>
+</RCC>
