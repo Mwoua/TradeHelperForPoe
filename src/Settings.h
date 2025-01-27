@@ -15,6 +15,8 @@ class Settings : public QWidget
 
   public:
     Settings();
+    static QString GetPoe1Client();
+    static QString GetPoe2Client();
 
   private:
     void SetupUi();

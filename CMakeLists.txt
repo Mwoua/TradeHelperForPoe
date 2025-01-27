@@ -29,6 +29,8 @@ target_sources(TradeHelperForPoe
 
         src/BrowseLineEdit.cpp
         src/BrowseLineEdit.h
+        src/ClientMonitor.cpp
+        src/ClientMonitor.h
         src/Settings.cpp
         src/Settings.h
         src/SystemTray.cpp

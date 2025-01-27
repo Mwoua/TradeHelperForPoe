@@ -22,16 +22,32 @@ Settings::Settings()
     SetupUi();
 }
 
+QString Settings::GetPoe1Client()
+{
+    QSettings lSettings;
+    return lSettings.value( SETTINGS_POE1_CLIENT, "" ).toString();
+}
+
+QString Settings::GetPoe2Client()
+{
+    QSettings lSettings;
+    return lSettings.value( SETTINGS_POE2_CLIENT, "" ).toString();
+}
+
 void Settings::SetupUi()
 {
     auto *lLayout = new QFormLayout( this );
 
     mLEPoe1Client = new BrowseLineEdit();
     mLEPoe1Client->SetCallback( [this]() { Settings::Browse( mLEPoe1Client ); } );
+    mLEPoe1Client->setText( GetPoe1Client() );
+    mLEPoe1Client->setPlaceholderText( "Path to client.txt" );
     lLayout->addRow( "Poe1 client.txt", mLEPoe1Client );
 
     mLEPoe2Client = new BrowseLineEdit();
     mLEPoe2Client->SetCallback( [this]() { Settings::Browse( mLEPoe2Client ); } );
+    mLEPoe2Client->setText( GetPoe2Client() );
+    mLEPoe2Client->setPlaceholderText( "Path to client.txt" );
     lLayout->addRow( "Poe2 client.txt", mLEPoe2Client );
 
     auto *lButtons = new QDialogButtonBox( QDialogButtonBox::Apply | QDialogButtonBox::Cancel );

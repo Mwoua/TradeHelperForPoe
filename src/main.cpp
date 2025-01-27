@@ -1,3 +1,4 @@
+#include "ClientMonitor.h"
 #include "SystemTray.h"
 #include "version.h"
 
@@ -18,6 +19,8 @@ int main( int argc, char *argv[] )
     QSystemTrayIcon lTrayIcon;
     SetupSystemTray( lTrayIcon );
     lTrayIcon.show();
+
+    const ClientMonitor lClientMonitor;
 
     return lApp.exec();
 }
