@@ -2,6 +2,7 @@
 #include "version.h"
 
 #include <QApplication>
+#include <QStyleHints>
 
 int main( int argc, char *argv[] )
 {
@@ -10,6 +11,9 @@ int main( int argc, char *argv[] )
     lApp.setApplicationName( TRADEHELPER_BINARY_NAME );
     lApp.setWindowIcon( QIcon( ":/TradeHelperForPoe.ico" ) );
     lApp.setQuitOnLastWindowClosed( false );
+
+    QApplication::setStyle( "Fusion" );
+    QGuiApplication::styleHints()->setColorScheme( Qt::ColorScheme::Dark );
 
     QSystemTrayIcon lTrayIcon;
     SetupSystemTray( lTrayIcon );
