@@ -1,5 +1,5 @@
-#include "ClientMonitor.h"
-#include "SystemTray.h"
+#include "ClientMonitor.hpp"
+#include "SystemTray.hpp"
 #include "version.h"
 
 #include <QApplication>

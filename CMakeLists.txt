@@ -28,13 +28,13 @@ target_sources(TradeHelperForPoe
         src/version.h
 
         src/BrowseLineEdit.cpp
-        src/BrowseLineEdit.h
+        src/BrowseLineEdit.hpp
         src/ClientMonitor.cpp
-        src/ClientMonitor.h
+        src/ClientMonitor.hpp
         src/Settings.cpp
-        src/Settings.h
+        src/Settings.hpp
         src/SystemTray.cpp
-        src/SystemTray.h
+        src/SystemTray.hpp
 
         resources/utf8.manifest # Force utf8 for the app/library if the OS supports it
         resources/template.rc # Set icons and versions of the binary

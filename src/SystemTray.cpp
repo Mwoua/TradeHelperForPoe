@@ -1,5 +1,5 @@
-#include "SystemTray.h"
-#include "Settings.h"
+#include "SystemTray.hpp"
+#include "Settings.hpp"
 
 #include <QAction>
 #include <QApplication>

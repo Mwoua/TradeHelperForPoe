@@ -1,6 +1,6 @@
-#include "ClientMonitor.h"
+#include "ClientMonitor.hpp"
 
-#include "Settings.h"
+#include "Settings.hpp"
 
 #include <QFile>
 #include <QFileSystemWatcher>

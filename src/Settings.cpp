@@ -1,10 +1,6 @@
-/// @file	src/Settings.cpp
-///
-/// @brief	Implements the settings class
+#include "Settings.hpp"
 
-#include "Settings.h"
-
-#include "BrowseLineEdit.h"
+#include "BrowseLineEdit.hpp"
 
 #include <QDialogButtonBox>
 #include <QFileDialog>

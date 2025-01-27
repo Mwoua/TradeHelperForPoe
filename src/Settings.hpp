@@ -1,7 +1,3 @@
-/// @file	src/Settings.h
-///
-/// @brief	Declares the settings class
-
 #pragma once
 
 #include <QWidget>
@@ -9,6 +5,7 @@
 class BrowseLineEdit;
 class QLineEdit;
 
+/// Settings widget
 class Settings : public QWidget
 {
     Q_OBJECT;

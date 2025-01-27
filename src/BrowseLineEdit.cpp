@@ -1,8 +1,4 @@
-/// @file	src/BrowseLineEdit.cpp
-///
-/// @brief	Implements the browse line edit class
-
-#include "BrowseLineEdit.h"
+#include "BrowseLineEdit.hpp"
 
 #include <QWidgetAction>
 

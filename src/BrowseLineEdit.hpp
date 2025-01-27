@@ -1,7 +1,3 @@
-/// @file	src/BrowseLineEdit.h
-///
-/// @brief	Declares the browse line edit class
-
 #pragma once
 
 #include <QLineEdit>
