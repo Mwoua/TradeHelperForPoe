@@ -1,0 +1,21 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "enableMicrosoftCodeAnalysis": false,
+      "enableClangTidyCodeAnalysis": true,
+      "clangTidyChecks": "-*,cppcoreguidelines-*,-cppcoreguidelines-owning-memory,modernize-*,-modernize-use-trailing-return-type,-modernize-use-nodiscard,hicpp-*,misc-*,portability-*,performance-*,clang-analyzer-*,-modernize-use-nullptr,-hicpp-use-nullptr,-misc-include-cleaner,-cppcoreguidelines-pro-type-reinterpret-cast",
+      "COMMENT_Mwoua": "-modernize-use-nullptr,-hicpp-use-nullptr are added for a clang bug, they probably can be removed once clang tody v15 is used",
+      "COMMENT_PART2": "-misc-include-cleaner is way too verbose for use"
+
+    }
+  ]
+}
