@@ -28,6 +28,8 @@ target_sources(TradeHelperForPoe
         src/version.h
         src/Defines.hpp
 
+        src/AboutForm.cpp
+        src/AboutForm.hpp
         src/BrowseLineEdit.cpp
         src/BrowseLineEdit.hpp
         src/ClientMonitor.cpp
@@ -38,6 +40,12 @@ target_sources(TradeHelperForPoe
         src/StringParser.hpp
         src/SystemTray.cpp
         src/SystemTray.hpp
+        src/TradeWidget.cpp
+        src/TradeWidget.hpp
+        src/TradeWidgetDisplayer.cpp
+        src/TradeWidgetDisplayer.hpp
+        src/TradeWidgetFactory.cpp
+        src/TradeWidgetFactory.hpp
 
         resources/utf8.manifest # Force utf8 for the app/library if the OS supports it
         resources/template.rc # Set icons and versions of the binary

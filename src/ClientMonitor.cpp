@@ -9,8 +9,9 @@
 
 #include <fstream>
 
-ClientMonitor::ClientMonitor()
+ClientMonitor::ClientMonitor( TradeWidgetDisplayer &aTradeWidgetDisplayer )
     : mMonitor1( new QThread( this ) )
+    , mTradeWidgetDisplayer( aTradeWidgetDisplayer )
 {
     connect( mMonitor1, &QThread::started, this, [this]() { MonitorTextFile(); } );
     mMonitor1->start();
@@ -63,7 +64,7 @@ void ClientMonitor::ReadChangedFileContents( const QString &aFile, std::streampo
         lFile.seekg( aLastReadPosition );
         if( lFile.peek() == EOF )
         {
-            //we are in a wrong position, reset to the end of the file
+            // we are in a wrong position, reset to the end of the file
             lFile.seekg( 0, std::ios::end );
             aLastReadPosition = lFile.tellg();
         }
@@ -72,7 +73,7 @@ void ClientMonitor::ReadChangedFileContents( const QString &aFile, std::streampo
     std::string lLastLine;
     while( std::getline( lFile, lLastLine ) )
     {
-        StringParser( std::move( lLastLine ), aVersion );
+        StringParser( mTradeWidgetDisplayer, std::move( lLastLine ), aVersion );
     }
     lFile.clear();
     aLastReadPosition = lFile.tellg();

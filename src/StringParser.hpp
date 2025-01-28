@@ -4,11 +4,13 @@
 
 #include <string>
 
+class TradeWidgetDisplayer;
+
 /// Parse input string and display relevant widget
 class StringParser
 {
   public:
-    StringParser( std::string aLine, PoeVersion aVersion );
+    StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::string aLine, PoeVersion aVersion );
 
     enum class Matches
     {

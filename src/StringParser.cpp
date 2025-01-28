@@ -1,5 +1,7 @@
 ﻿#include "StringParser.hpp"
 
+#include "TradeWidgetFactory.hpp"
+
 #include <regex>
 
 constexpr auto FROM = "@From";
@@ -97,7 +99,7 @@ const std::vector<std::pair<std::regex, std::vector<StringParser::Matches>>> REG
 //  poe2
 //
 
-StringParser::StringParser( std::string aLine, PoeVersion aVersion )
+StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::string aLine, PoeVersion aVersion )
 {
     Trade lTrade;
     if( auto lPos = aLine.find( FROM ); lPos != std::string::npos )
@@ -129,7 +131,7 @@ StringParser::StringParser( std::string aLine, PoeVersion aVersion )
             {
                 MatchToTradeItem( lTrade, lRegexPair.second[i], lMatches[i + 1].str() );
             }
-            // TODO send trade info to widget creator
+            TradeWidgetFactory::Create( aTradeWidgetDisplayer, std::move( lTrade ), aVersion );
             return;
         }
     }

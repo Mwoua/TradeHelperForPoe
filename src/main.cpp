@@ -1,9 +1,14 @@
 #include "ClientMonitor.hpp"
 #include "SystemTray.hpp"
+#include "TradeWidgetDisplayer.hpp"
 #include "version.h"
 
 #include <QApplication>
 #include <QStyleHints>
+
+#ifdef _DEBUG
+#include <iostream>
+#endif
 
 int main( int argc, char *argv[] )
 {
@@ -20,7 +25,13 @@ int main( int argc, char *argv[] )
     SetupSystemTray( lTrayIcon );
     lTrayIcon.show();
 
-    const ClientMonitor lClientMonitor;
+#ifdef _DEBUG
+    std::cout << "App started" << std::endl;
+#endif
+
+    TradeWidgetDisplayer lTradeWidgetDisplayer;
+
+    const ClientMonitor lClientMonitor( lTradeWidgetDisplayer );
 
     return lApp.exec();
 }
