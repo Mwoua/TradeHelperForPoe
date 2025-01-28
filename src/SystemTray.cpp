@@ -1,4 +1,5 @@
 #include "SystemTray.hpp"
+#include "AboutForm.hpp"
 #include "Settings.hpp"
 
 #include <QAction>
@@ -18,12 +19,16 @@ void SetupSystemTray( QSystemTrayIcon &aSystemTray )
                           lSettings->show();
                       } );
 
+    auto *lAboutAction = new QAction( "&About" );
+    QObject::connect( lAboutAction, &QAction::triggered, qApp, []() { AboutForm().exec(); } );
+
     auto *lQuitAction = new QAction( "&Quit", &aSystemTray );
     QObject::connect( lQuitAction, &QAction::triggered, qApp, &QApplication::quit );
 
     auto *lTrayIconMenu = new QMenu();
     lTrayIconMenu->addAction( lSettingsAction );
     lTrayIconMenu->addSeparator();
+    lTrayIconMenu->addAction( lAboutAction );
     lTrayIconMenu->addAction( lQuitAction );
 
     aSystemTray.setContextMenu( lTrayIconMenu );
