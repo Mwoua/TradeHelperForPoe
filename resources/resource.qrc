@@ -2,4 +2,21 @@
     <qresource prefix="/">
         <file>TradeHelperForPoe.ico</file>
     </qresource>
+    <qresource prefix="/TradeHelper">
+        <file alias="Kick">TradeHelper/account-minus.png</file>
+        <file alias="Wait">TradeHelper/clock.png</file>
+        <file alias="StillInterested">TradeHelper/comment-question.png</file>
+        <file alias="SellerHideout">TradeHelper/customerHideout.png</file>
+        <file alias="Message1">TradeHelper/customMessage1.png</file>
+        <file alias="Message2">TradeHelper/customMessage2.png</file>
+        <file alias="Home">TradeHelper/home.png</file>
+        <file alias="Invite">TradeHelper/invite.png</file>
+        <file alias="Leave">TradeHelper/leave.png</file>
+        <file alias="Search">TradeHelper/magnify.png</file>
+        <file alias="Whisp">TradeHelper/message-text.png</file>
+        <file alias="Close">TradeHelper/remove.png</file>
+        <file alias="Repeat">TradeHelper/repeat.png</file>
+        <file alias="Thanks">TradeHelper/thanks.png</file>
+        <file alias="Trade">TradeHelper/trade.png</file>
+    </qresource>
 </RCC>
