@@ -26,6 +26,7 @@ target_sources(TradeHelperForPoe
     PRIVATE
         src/main.cpp
         src/version.h
+        src/Defines.hpp
 
         src/BrowseLineEdit.cpp
         src/BrowseLineEdit.hpp
@@ -33,6 +34,8 @@ target_sources(TradeHelperForPoe
         src/ClientMonitor.hpp
         src/Settings.cpp
         src/Settings.hpp
+        src/StringParser.cpp
+        src/StringParser.hpp
         src/SystemTray.cpp
         src/SystemTray.hpp
 

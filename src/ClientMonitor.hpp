@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Defines.hpp"
+
 #include <QObject>
 
 class QThread;
@@ -14,9 +16,9 @@ class ClientMonitor : public QObject
     ~ClientMonitor() override;
 
   private:
-    QThread *mMonitor1 = nullptr;
+    QThread *mMonitor1                = nullptr;
     std::streampos mLastReadPosition1 = 0, mLastReadPosition2 = 0;
 
     void MonitorTextFile();
-    static void ReadChangedFileContents(const QString &aFile, std::streampos &aLastReadPosition);
+    static void ReadChangedFileContents( const QString &aFile, std::streampos &aLastReadPosition, PoeVersion aVersion );
 };

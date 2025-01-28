@@ -1,6 +1,7 @@
 #include "ClientMonitor.hpp"
 
 #include "Settings.hpp"
+#include "StringParser.hpp"
 
 #include <QFile>
 #include <QFileSystemWatcher>
@@ -26,17 +27,31 @@ void ClientMonitor::MonitorTextFile()
 {
     if( QFile( Settings::GetPoe1Client() ).exists() )
     {
-        auto *lWatcher1 = new QFileSystemWatcher( { Settings::GetPoe1Client() }, QThread::currentThread() );
-        connect( lWatcher1, &QFileSystemWatcher::fileChanged, this, [this]( const QString &aFile ) { ReadChangedFileContents( aFile, mLastReadPosition1 ); } );
+        std::ifstream lFile( Settings::GetPoe1Client().toStdString(), std::ios_base::in );
+        if( lFile.is_open() )
+        {
+            lFile.seekg( 0, std::ios::end );
+            mLastReadPosition1 = lFile.tellg();
+            auto *lWatcher1    = new QFileSystemWatcher( { Settings::GetPoe1Client() }, QThread::currentThread() );
+            connect(
+                lWatcher1, &QFileSystemWatcher::fileChanged, this, [this]( const QString &aFile ) { ReadChangedFileContents( aFile, mLastReadPosition1, PoeVersion::Poe1 ); } );
+        }
     }
     if( QFile( Settings::GetPoe2Client() ).exists() )
     {
-        auto *lWatcher2 = new QFileSystemWatcher( { Settings::GetPoe2Client() }, QThread::currentThread() );
-        connect( lWatcher2, &QFileSystemWatcher::fileChanged, this, [this]( const QString &aFile ) { ReadChangedFileContents( aFile, mLastReadPosition2 ); } );
+        std::ifstream lFile( Settings::GetPoe2Client().toStdString(), std::ios_base::in );
+        if( lFile.is_open() )
+        {
+            lFile.seekg( 0, std::ios::end );
+            mLastReadPosition2 = lFile.tellg();
+            auto *lWatcher2    = new QFileSystemWatcher( { Settings::GetPoe2Client() }, QThread::currentThread() );
+            connect(
+                lWatcher2, &QFileSystemWatcher::fileChanged, this, [this]( const QString &aFile ) { ReadChangedFileContents( aFile, mLastReadPosition2, PoeVersion::Poe2 ); } );
+        }
     }
 }
 
-void ClientMonitor::ReadChangedFileContents( const QString &aFile, std::streampos &aLastReadPosition )
+void ClientMonitor::ReadChangedFileContents( const QString &aFile, std::streampos &aLastReadPosition, PoeVersion aVersion )
 {
     std::ifstream lFile( aFile.toStdString(), std::ios_base::in );
     if( !lFile.is_open() )
@@ -51,7 +66,7 @@ void ClientMonitor::ReadChangedFileContents( const QString &aFile, std::streampo
     std::string lLastLine;
     while( std::getline( lFile, lLastLine ) )
     {
-        // TODO: check line if its a trade
+        StringParser( std::move( lLastLine ), aVersion );
     }
     aLastReadPosition = lFile.tellg();
 }
