@@ -61,6 +61,12 @@ void ClientMonitor::ReadChangedFileContents( const QString &aFile, std::streampo
     if( aLastReadPosition > 0 )
     {
         lFile.seekg( aLastReadPosition );
+        if( lFile.peek() == EOF )
+        {
+            //we are in a wrong position, reset to the end of the file
+            lFile.seekg( 0, std::ios::end );
+            aLastReadPosition = lFile.tellg();
+        }
     }
 
     std::string lLastLine;
@@ -68,5 +74,6 @@ void ClientMonitor::ReadChangedFileContents( const QString &aFile, std::streampo
     {
         StringParser( std::move( lLastLine ), aVersion );
     }
+    lFile.clear();
     aLastReadPosition = lFile.tellg();
 }
