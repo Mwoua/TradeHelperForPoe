@@ -105,12 +105,12 @@ StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::st
     if( auto lPos = aLine.find( FROM ); lPos != std::string::npos )
     {
         lTrade.mIncoming = true;
-        aLine            = aLine.substr( lPos + std::strlen( FROM ) );
+        aLine            = aLine.substr( lPos + std::strlen( FROM ) + 1 );
     }
     else if( auto lPos = aLine.find( TO ); lPos != std::string::npos )
     {
         lTrade.mIncoming = false;
-        aLine            = aLine.substr( lPos + std::strlen( TO ) );
+        aLine            = aLine.substr( lPos + std::strlen( TO ) + 1 );
     }
     else
     {
@@ -127,6 +127,8 @@ StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::st
                 // Robustness, should not happen
                 return;
             }
+            lTrade.mEntireString = lMatches[0];
+            lTrade.mEntireString.erase( 0, lTrade.mEntireString.find( ':' ) + 2 );
             for( auto i = 0U; i < lMatches.size() - 1; ++i )
             {
                 MatchToTradeItem( lTrade, lRegexPair.second[i], lMatches[i + 1].str() );

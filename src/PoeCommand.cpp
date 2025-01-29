@@ -12,36 +12,60 @@ namespace
     bool BringPoeToForeground( PoeVersion aVersion );
 } // namespace
 
-void PoeCommand( const std::string &aCommand, PoeVersion aVersion )
+void PoeCommand( const std::string &aCommand, PoeVersion aVersion, bool aSendCommand )
 {
     if( !BringPoeToForeground( aVersion ) )
     {
         return;
     }
+    // TODO convert utf8 command to unicode https://stackoverflow.com/a/59730985/1156580
 
-    std::vector<INPUT> vec;
+    std::vector<INPUT> lInputs;
     INPUT lEnterInputDown{};
     lEnterInputDown.type     = INPUT_KEYBOARD;
     lEnterInputDown.ki.wVk   = VK_RETURN;
     INPUT lEnterInputUp      = lEnterInputDown;
     lEnterInputUp.ki.dwFlags = KEYEVENTF_KEYUP;
-    vec.push_back( lEnterInputDown );
-    vec.push_back( lEnterInputUp );
+    lInputs.push_back( lEnterInputDown );
+    lInputs.push_back( lEnterInputUp );
     for( auto ch : aCommand )
     {
         INPUT input      = { 0 };
         input.type       = INPUT_KEYBOARD;
         input.ki.dwFlags = KEYEVENTF_UNICODE;
         input.ki.wScan   = ch;
-        vec.push_back( input );
+        lInputs.push_back( input );
 
         input.ki.dwFlags |= KEYEVENTF_KEYUP;
-        vec.push_back( input );
+        lInputs.push_back( input );
     }
-    vec.push_back( lEnterInputDown );
-    vec.push_back( lEnterInputUp );
+    if( aSendCommand )
+    {
+        lInputs.push_back( lEnterInputDown );
+        lInputs.push_back( lEnterInputUp );
+    }
 
-    SendInput( vec.size(), vec.data(), sizeof( INPUT ) );
+    SendInput( lInputs.size(), lInputs.data(), sizeof( INPUT ) );
+}
+
+void PoeCommandSearch( PoeVersion aVersion )
+{
+    if( !BringPoeToForeground( aVersion ) )
+    {
+        return;
+    }
+
+    std::vector<INPUT> lInputs( 4, {} );
+    lInputs[0].type   = INPUT_KEYBOARD;
+    lInputs[0].ki.wVk = VK_CONTROL;
+    lInputs[1].type   = INPUT_KEYBOARD;
+    lInputs[1].ki.wVk = 'F';
+    lInputs[2]        = lInputs[1];
+    lInputs[2].ki.dwFlags |= KEYEVENTF_KEYUP;
+    lInputs[3] = lInputs[0];
+    lInputs[3].ki.dwFlags |= KEYEVENTF_KEYUP;
+
+    SendInput( lInputs.size(), lInputs.data(), sizeof( INPUT ) );
 }
 
 namespace
@@ -63,8 +87,9 @@ namespace
     }
 } // namespace
 #else
-void PoeCommand( const std::string &aCommand, PoeVersion aVersion )
+void PoeCommand( const std::string &aCommand, PoeVersion aVersion, bool aSendCommand )
 {
     // TODO
 }
+void PoeCommandSearch( PoeVersion aVersion ) {}
 #endif

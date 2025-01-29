@@ -15,6 +15,11 @@ class Settings : public QWidget
     static QString GetPoe1Client();
     static QString GetPoe2Client();
 
+    static QString BusyString();
+    static QString CustomMessage1();
+    static QString CustomMessage2();
+    static QString Thanks();
+
   private:
     void SetupUi();
     void SaveSettings();

@@ -4,4 +4,5 @@
 
 #include <string>
 
-void PoeCommand( const std::string &aCommand, PoeVersion aVersion );
+void PoeCommand( const std::string &aCommand, PoeVersion aVersion, bool aSendCommand = true );
+void PoeCommandSearch( PoeVersion aVersion );

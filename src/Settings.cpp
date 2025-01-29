@@ -10,6 +10,13 @@
 
 constexpr auto SETTINGS_POE1_CLIENT = "POE1_CLIENT";
 constexpr auto SETTINGS_POE2_CLIENT = "POE2_CLIENT";
+constexpr auto SETTINGS_BUSY_STRING = "BUSY";
+constexpr auto SETTINGS_CUSTOM1     = "CUSTOM1";
+constexpr auto SETTINGS_CUSTOM2     = "CUSTOM2";
+constexpr auto SETTINGS_THANKS      = "THANKS";
+
+constexpr auto DEFAULT_BUSY   = "Hello, I'm currently busy. Can you wait a few minutes? Thanks";
+constexpr auto DEFAULT_THANKS = "Thank you for trading. Have a good day exile";
 
 Settings::Settings()
 {
@@ -20,14 +27,38 @@ Settings::Settings()
 
 QString Settings::GetPoe1Client()
 {
-    QSettings lSettings;
+    const QSettings lSettings;
     return lSettings.value( SETTINGS_POE1_CLIENT, "" ).toString();
 }
 
 QString Settings::GetPoe2Client()
 {
-    QSettings lSettings;
+    const QSettings lSettings;
     return lSettings.value( SETTINGS_POE2_CLIENT, "" ).toString();
+}
+
+QString Settings::BusyString()
+{
+    const QSettings lSettings;
+    return lSettings.value( SETTINGS_BUSY_STRING, DEFAULT_BUSY ).toString();
+}
+
+QString Settings::CustomMessage1()
+{
+    const QSettings lSettings;
+    return lSettings.value( SETTINGS_CUSTOM1, "" ).toString();
+}
+
+QString Settings::CustomMessage2()
+{
+    const QSettings lSettings;
+    return lSettings.value( SETTINGS_CUSTOM2, "" ).toString();
+}
+
+QString Settings::Thanks()
+{
+    const QSettings lSettings;
+    return lSettings.value( SETTINGS_THANKS, DEFAULT_THANKS ).toString();
 }
 
 void Settings::SetupUi()

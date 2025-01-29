@@ -1,5 +1,8 @@
 ﻿#include "TradeWidget.hpp"
 
+#include "PoeCommand.hpp"
+#include "Settings.hpp"
+
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -8,9 +11,11 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
+#include <thread>
+
 constexpr auto COLLAPSED_PROPERTY = "CollapseState";
 constexpr auto ARROW_DOWN         = "\u2b9f"; // ⮟
-constexpr auto ARROW_UP           = "\u2b9d"; // ⮝⮝
+constexpr auto ARROW_UP           = "\u2b9d"; // ⮝
 
 TradeWidget::TradeWidget( Trade aTrade, PoeVersion aVersion )
     : mPoeVersion( aVersion )
@@ -53,40 +58,40 @@ QLayout *TradeWidget::SetupUiFirstRow( const Trade &aTrade )
     {
         auto *lPBInviteCustomer = new QPushButton( QIcon( ":/TradeHelper/Invite" ), "" );
         lFirstRowLayout->addWidget( lPBInviteCustomer );
-        // TODO connect lPBInviteCustomer
+        connect( lPBInviteCustomer, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "/invite " + aTrade.mUser, mPoeVersion ); } );
     }
     else
     {
         auto *lPBToSellerHideout = new QPushButton( QIcon( ":/TradeHelper/SellerHideout" ), "" );
         lFirstRowLayout->addWidget( lPBToSellerHideout );
-        // TODO connect lPBToSellerHideout
+        connect( lPBToSellerHideout, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "/hideout " + aTrade.mUser, mPoeVersion ); } );
     }
 
     if( aTrade.mIncoming )
     {
         auto *lPBTrade = new QPushButton( QIcon( ":/TradeHelper/Trade" ), "" );
         lFirstRowLayout->addWidget( lPBTrade );
-        // TODO connect lPBTrade
+        connect( lPBTrade, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "/tradewith " + aTrade.mUser, mPoeVersion ); } );
     }
 
     auto *lPBThanks = new QPushButton( QIcon( ":/TradeHelper/Thanks" ), "" );
     lFirstRowLayout->addWidget( lPBThanks );
-    // TODO connect lPBThanks
+    connect( lPBThanks, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "@" + aTrade.mUser + " " + Settings::Thanks().toStdString(), mPoeVersion, false ); } );
 
     auto *lPBLeave = new QPushButton( QIcon( ":/TradeHelper/Leave" ), "" );
     lFirstRowLayout->addWidget( lPBLeave );
-    // TODO connect lPBLeave
+    connect( lPBLeave, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "/leave", mPoeVersion, false ); } );
 
     if( !aTrade.mIncoming )
     {
         auto *lPBHome = new QPushButton( QIcon( ":/TradeHelper/Home" ), "" );
         lFirstRowLayout->addWidget( lPBHome );
-        // TODO connect lPBHome
+        connect( lPBHome, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "/hideout", mPoeVersion, false ); } );
     }
 
     auto *lPBWhisp = new QPushButton( QIcon( ":/TradeHelper/Whisp" ), "" );
     lFirstRowLayout->addWidget( lPBWhisp );
-    // TODO connect lPBWhisp
+    connect( lPBWhisp, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "@" + aTrade.mUser + " ", mPoeVersion, false ); } );
 
     auto *lPBClose = new QPushButton( QIcon( ":/TradeHelper/Close" ), "" );
     lFirstRowLayout->addWidget( lPBClose );
@@ -106,7 +111,7 @@ QWidget *TradeWidget::SetupUiSecondRow( const Trade &aTrade )
     auto *lPBCustomer = new QPushButton( aTrade.mUser.c_str() );
     lPBCustomer->setFlat( true );
     lSecondRowLayout->addWidget( lPBCustomer );
-    // TODO connect lPBCustomer
+    connect( lPBCustomer, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "/whois " + aTrade.mUser, mPoeVersion ); } );
 
     lSecondRowLayout->addWidget( new QLabel( aTrade.mLeague.c_str() ) );
     if( aTrade.mComment.has_value() )
@@ -115,40 +120,67 @@ QWidget *TradeWidget::SetupUiSecondRow( const Trade &aTrade )
     }
     lSecondRowLayout->addStretch( 100 );
 
-    auto *lPBMessage1 = new QPushButton( QIcon( ":/TradeHelper/Message1" ), "" );
-    lSecondRowLayout->addWidget( lPBMessage1 );
-    // TODO connect lPBMessage1
+    if( Settings::CustomMessage1().size() > 0 )
+    {
+        auto *lPBMessage1 = new QPushButton( QIcon( ":/TradeHelper/Message1" ), "" );
+        lSecondRowLayout->addWidget( lPBMessage1 );
+        connect( lPBMessage1, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "@" + aTrade.mUser + " " + Settings::CustomMessage1().toStdString(), mPoeVersion ); } );
+    }
 
-    auto *lPBMessage2 = new QPushButton( QIcon( ":/TradeHelper/Message2" ), "" );
-    lSecondRowLayout->addWidget( lPBMessage2 );
-    // TODO connect lPBMessage2
+    if( Settings::CustomMessage2().size() > 0 )
+    {
+        auto *lPBMessage2 = new QPushButton( QIcon( ":/TradeHelper/Message2" ), "" );
+        lSecondRowLayout->addWidget( lPBMessage2 );
+        connect( lPBMessage2, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "@" + aTrade.mUser + " " + Settings::CustomMessage2().toStdString(), mPoeVersion ); } );
+    }
 
     if( aTrade.mIncoming )
     {
         auto *lPBWait = new QPushButton( QIcon( ":/TradeHelper/Wait" ), "" );
         lSecondRowLayout->addWidget( lPBWait );
-        // TODO connect lPBWait
+        connect( lPBWait, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "@" + aTrade.mUser + " " + Settings::BusyString().toStdString(), mPoeVersion ); } );
 
         auto *lPBSearch = new QPushButton( QIcon( ":/TradeHelper/Search" ), "" );
         lSecondRowLayout->addWidget( lPBSearch );
-        // TODO connect lPBSearch
+        connect( lPBSearch,
+                 &QPushButton::clicked,
+                 this,
+                 [this, aTrade]()
+                 {
+                     using namespace std::chrono_literals;
+                     PoeCommandSearch( mPoeVersion );
+                     std::this_thread::sleep_for( 500ms );
+                     PoeCommand( aTrade.mItem, mPoeVersion );
+                 } );
     }
 
     auto *lPBKick = new QPushButton( QIcon( ":/TradeHelper/Kick" ), "" );
     lSecondRowLayout->addWidget( lPBKick );
-    // TODO connect lPBKick
+    connect( lPBKick, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "/kick " + aTrade.mUser, mPoeVersion ); } );
 
     if( aTrade.mIncoming )
     {
         auto *lPBStillInterested = new QPushButton( QIcon( ":/TradeHelper/StillInterested" ), "" );
         lSecondRowLayout->addWidget( lPBStillInterested );
-        // TODO connect lPBStillInterested
+        connect( lPBStillInterested,
+                 &QPushButton::clicked,
+                 this,
+                 [this, aTrade]()
+                 {
+                     std::string lStillInterested = " Hi, are you still interested in " + aTrade.mItem;
+                     if( aTrade.mPrice.has_value() )
+                     {
+                         lStillInterested += " for " + aTrade.mPrice.value();
+                     }
+
+                     PoeCommand( "@" + aTrade.mUser + lStillInterested, mPoeVersion );
+                 } );
     }
     else
     {
         auto *lPBRepeat = new QPushButton( QIcon( ":/TradeHelper/Repeat" ), "" );
         lSecondRowLayout->addWidget( lPBRepeat );
-        // TODO connect lPBRepeat
+        connect( lPBRepeat, &QPushButton::clicked, this, [this, aTrade]() { PoeCommand( "@" + aTrade.mUser + " " + aTrade.mEntireString, mPoeVersion ); } );
     }
 
     return mSecondRow;

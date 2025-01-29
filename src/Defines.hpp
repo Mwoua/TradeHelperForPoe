@@ -11,6 +11,7 @@ enum class PoeVersion
 
 struct Trade
 {
+    std::string mEntireString                = "";
     bool mIncoming                           = false;
     std::string mItem                        = "";
     std::string mLeague                      = "";
