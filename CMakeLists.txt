@@ -34,6 +34,8 @@ target_sources(TradeHelperForPoe
         src/BrowseLineEdit.hpp
         src/ClientMonitor.cpp
         src/ClientMonitor.hpp
+        src/PoeCommand.cpp
+        src/PoeCommand.hpp
         src/Settings.cpp
         src/Settings.hpp
         src/StringParser.cpp
