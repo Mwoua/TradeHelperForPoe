@@ -18,16 +18,17 @@ class TradeWidget : public QWidget
     TradeWidget( Trade aTrade, PoeVersion aVersion );
 
   private:
-    void SetupUi( const Trade &aTrade );
-    QLayout *SetupUiFirstRow( const Trade &aTrade );
-    QWidget *SetupUiSecondRow( const Trade &aTrade );
-    QWidget *BuildTradeItemWidget( const Trade &aTrade );
-    QWidget *BuildTradePriceWidget( const Trade &aTrade );
+    void SetupUi();
+    QLayout *SetupUiFirstRow();
+    QWidget *SetupUiSecondRow();
+    QWidget *BuildTradeItemWidget();
+    QWidget *BuildTradePriceWidget();
 
     void UpdateTime();
     void ManageCollaspeState();
 
     const PoeVersion mPoeVersion;
+    const Trade mTrade;
 
     QPushButton *mCollapseButton = nullptr;
     QLabel *mLbTime              = nullptr;
