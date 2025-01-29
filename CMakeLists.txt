@@ -13,14 +13,14 @@ else(WIN32)
    list(APPEND CMAKE_PREFIX_PATH ${Qt_Path})
 endif(WIN32)
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Network)
 qt_standard_project_setup()
 set(CMAKE_AUTORCC true)
 
 qt_add_executable(TradeHelperForPoe "")
 qt_disable_unicode_defines(TradeHelperForPoe)
 
-target_link_libraries(TradeHelperForPoe PRIVATE Qt6::Widgets)
+target_link_libraries(TradeHelperForPoe PRIVATE Qt6::Widgets Qt6::Network)
 
 target_sources(TradeHelperForPoe
     PRIVATE

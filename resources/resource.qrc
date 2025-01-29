@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>TradeHelperForPoe.ico</file>
+        <file>TradeHelperForPoe_msg.ico</file>
     </qresource>
     <qresource prefix="/TradeHelper">
         <file alias="Kick">TradeHelper/account-minus.png</file>
