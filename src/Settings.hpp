@@ -12,9 +12,12 @@ class Settings : public QWidget
 
   public:
     Settings();
+
     static QString GetPoe1Client();
     static QString GetPoe2Client();
-
+    static int TradeWidgetWidth();
+    static int TradeWidgetX();
+    static int TradeWidgetY();
     static QString BusyString();
     static QString CustomMessage1();
     static QString CustomMessage2();
@@ -24,6 +27,8 @@ class Settings : public QWidget
     void SetupUi();
     void SaveSettings();
     static void Browse( QLineEdit *aLineEdit );
+    void DisplayExampleWidget();
 
     BrowseLineEdit *mLEPoe1Client = nullptr, *mLEPoe2Client = nullptr;
+    QWidget *mPositionTradeWidget = nullptr;
 };

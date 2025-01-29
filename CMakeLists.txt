@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.19) #3.19 for automatic Qt finalization
 
 project(TradeHelperForPoe LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(WIN32)
@@ -30,8 +30,6 @@ target_sources(TradeHelperForPoe
 
         src/AboutForm.cpp
         src/AboutForm.hpp
-        src/BrowseLineEdit.cpp
-        src/BrowseLineEdit.hpp
         src/ClientMonitor.cpp
         src/ClientMonitor.hpp
         src/PoeCommand.cpp
@@ -48,6 +46,10 @@ target_sources(TradeHelperForPoe
         src/TradeWidgetDisplayer.hpp
         src/TradeWidgetFactory.cpp
         src/TradeWidgetFactory.hpp
+        src/Utils/BrowseLineEdit.cpp
+        src/Utils/BrowseLineEdit.hpp
+        src/Utils/ElideLabel.hpp
+        src/Utils/ElideLabel.cpp
 
         resources/utf8.manifest # Force utf8 for the app/library if the OS supports it
         resources/template.rc # Set icons and versions of the binary

@@ -35,4 +35,5 @@ class TradeWidget : public QWidget
     QTimer *mTimer               = nullptr;
     QElapsedTimer mElapsedTimer;
     QWidget *mSecondRow = nullptr;
+    QPoint mOrigin{};
 };

@@ -1,5 +1,7 @@
 #include "TradeWidgetDisplayer.hpp"
 
+#include "Settings.hpp"
+
 #include <QFrame>
 #include <QTimer>
 
@@ -12,6 +14,13 @@ TradeWidgetDisplayer::TradeWidgetDisplayer()
     mMainLayout->setContentsMargins( 1, 1, 1, 1 );
     mMainLayout->setSpacing( 0 );
     mMainLayout->setSizeConstraint( QLayout::SetFixedSize );
+
+    const int lX     = Settings::TradeWidgetX();
+    const int lY     = Settings::TradeWidgetY();
+    if( lX != 0 && lY != 0 )
+    {
+        move( lX, lY );
+    }
 }
 
 void TradeWidgetDisplayer::AddTradeWidget( QWidget &aWidget )

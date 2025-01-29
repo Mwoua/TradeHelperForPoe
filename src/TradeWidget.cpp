@@ -2,6 +2,7 @@
 
 #include "PoeCommand.hpp"
 #include "Settings.hpp"
+#include "Utils/ElideLabel.hpp"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -23,6 +24,8 @@ TradeWidget::TradeWidget( Trade aTrade, PoeVersion aVersion )
 {
     SetupUi();
     setStyleSheet( "QAbstractButton { padding: 1px; }" );
+    const int lWidth = Settings::TradeWidgetWidth();
+    setFixedWidth( lWidth );
 }
 
 void TradeWidget::SetupUi()
@@ -46,7 +49,7 @@ QLayout *TradeWidget::SetupUiFirstRow()
     connect( mCollapseButton, &QPushButton::clicked, this, &TradeWidget::ManageCollaspeState );
     lFirstRowLayout->addWidget( mCollapseButton );
     lFirstRowLayout->addWidget( BuildTradeItemWidget() );
-    lFirstRowLayout->addStretch( 100 );
+    lFirstRowLayout->addStretch( 1 );
     lFirstRowLayout->addWidget( BuildTradePriceWidget() );
     mLbTime = new QLabel( "00:00" );
     lFirstRowLayout->addWidget( mLbTime );
@@ -115,12 +118,13 @@ QWidget *TradeWidget::SetupUiSecondRow()
     lSecondRowLayout->addWidget( lPBCustomer );
     connect( lPBCustomer, &QPushButton::clicked, this, [this]() { PoeCommand( "/whois " + mTrade.mUser, mPoeVersion ); } );
 
-    lSecondRowLayout->addWidget( new QLabel( mTrade.mLeague.c_str() ) );
+    lSecondRowLayout->addWidget( new ElideLabel( mTrade.mLeague.c_str() ) );
+    lSecondRowLayout->addStretch( 1 );
     if( mTrade.mComment.has_value() )
     {
-        lSecondRowLayout->addWidget( new QLabel( mTrade.mComment.value().c_str() ) );
+        lSecondRowLayout->addWidget( new ElideLabel( mTrade.mComment.value().c_str() ) );
     }
-    lSecondRowLayout->addStretch( 100 );
+    lSecondRowLayout->addStretch( 1 );
 
     if( Settings::CustomMessage1().size() > 0 )
     {
@@ -193,7 +197,7 @@ QWidget *TradeWidget::BuildTradeItemWidget()
     auto *lReturn = new QWidget;
     auto *lLayout = new QHBoxLayout( lReturn );
 
-    auto *lLb1 = new QLabel( mTrade.mItem.c_str() );
+    auto *lLb1 = new ElideLabel( mTrade.mItem.c_str() );
     lLayout->addWidget( lLb1 );
     // TODO parse item string for bulk trade or currency
 
@@ -205,7 +209,7 @@ QWidget *TradeWidget::BuildTradePriceWidget()
     auto *lReturn = new QWidget;
     auto *lLayout = new QHBoxLayout( lReturn );
 
-    auto *lLb1 = new QLabel( mTrade.mPrice.value_or( "" ).c_str() );
+    auto *lLb1 = new ElideLabel( mTrade.mPrice.value_or( "" ).c_str() );
     lLayout->addWidget( lLb1 );
     // TODO parse item string to display the currency
 
