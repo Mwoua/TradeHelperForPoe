@@ -1,0 +1,42 @@
+name: Build_Windows
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: ilammy/msvc-dev-cmd@v1.13.0
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.8.1'
+
+    - name: Setup Ninja
+      uses: ashutoshvarma/setup-ninja@master
+      with:
+        version: 1.12.1
+    
+    - name: Configure
+      run: cmake -D CMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -G "Ninja" -B ${{ github.workspace }}/build -S ${{ github.workspace }}
+    
+    - name: Build
+      run: cmake --build ${{ github.workspace }}/build
+
+    - name: Install
+      run: cmake --install ${{ github.workspace }}/build --prefix ${{ github.workspace }}/install
+
+    - name: artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build_windows
+        path: ${{ github.workspace }}/install
+        if-no-files-found: error
