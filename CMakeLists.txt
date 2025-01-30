@@ -68,9 +68,15 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebI
     set_property(TARGET TradeHelperForPoe PROPERTY WIN32_EXECUTABLE true) #remove console
 endif()
 
+install(TARGETS TradeHelperForPoe
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/..
+)
+
 qt_generate_deploy_app_script(
     TARGET TradeHelperForPoe
     OUTPUT_SCRIPT deploy_script
     NO_TRANSLATIONS
+    NO_COMPILER_RUNTIME
+    DEPLOY_TOOL_OPTIONS --libdir .
 )
 install(SCRIPT ${deploy_script})

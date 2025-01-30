@@ -32,7 +32,9 @@ jobs:
       run: cmake --build ${{ github.workspace }}/build
 
     - name: Install
-      run: cmake --install ${{ github.workspace }}/build --prefix ${{ github.workspace }}/install
+      run: |
+        cmake --install ${{ github.workspace }}/build --prefix ${{ github.workspace }}/install
+        rm -R -force ${{ github.workspace }}/install/bin
 
     - name: artifacts
       uses: actions/upload-artifact@v4
