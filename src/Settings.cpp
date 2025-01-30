@@ -42,16 +42,20 @@ class ResizeWidget : public QWidget
         setWindowFlags( Qt::WindowStaysOnTopHint | Qt::Window | Qt::FramelessWindowHint );
     }
 
-    void mousePressEvent( QMouseEvent *e ) override { mOrigin = e->globalPos(); }
+    void mousePressEvent( QMouseEvent *e ) override { mOrigin = e->globalPosition().toPoint(); }
     void mouseMoveEvent( QMouseEvent *e ) override
     {
         if( ( mOrigin != QPoint( 0, 0 ) ) && ( e->buttons() & Qt::LeftButton ) ) // dragging
         {
-            move( pos() + ( e->globalPos() - mOrigin ) );
-            mOrigin = e->globalPos();
+            move( pos() + ( e->globalPosition().toPoint() - mOrigin ) );
+            mOrigin = e->globalPosition().toPoint();
         }
     }
-    void mouseReleaseEvent( QMouseEvent *event ) override { mOrigin = QPoint( 0, 0 ); }
+    void mouseReleaseEvent( QMouseEvent *event ) override
+    {
+        (void)event;
+        mOrigin = QPoint( 0, 0 );
+    }
 
   private:
     QPoint mOrigin{};
@@ -155,7 +159,7 @@ void Settings::SaveSettings()
     // constexpr auto SETTINGS_CUSTOM1             = "CUSTOM1";
     // constexpr auto SETTINGS_CUSTOM2             = "CUSTOM2";
     // constexpr auto SETTINGS_THANKS              = "THANKS";
-    
+
     close();
 }
 

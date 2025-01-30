@@ -102,15 +102,15 @@ const std::vector<std::pair<std::regex, std::vector<StringParser::Matches>>> REG
 StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::string aLine, PoeVersion aVersion )
 {
     Trade lTrade;
-    if( auto lPos = aLine.find( FROM ); lPos != std::string::npos )
+    if( auto lPosFrom = aLine.find( FROM ); lPosFrom != std::string::npos )
     {
         lTrade.mIncoming = true;
-        aLine            = aLine.substr( lPos + std::strlen( FROM ) + 1 );
+        aLine            = aLine.substr( lPosFrom + std::strlen( FROM ) + 1 );
     }
-    else if( auto lPos = aLine.find( TO ); lPos != std::string::npos )
+    else if( auto lPosTo = aLine.find( TO ); lPosTo != std::string::npos )
     {
         lTrade.mIncoming = false;
-        aLine            = aLine.substr( lPos + std::strlen( TO ) + 1 );
+        aLine            = aLine.substr( lPosTo + std::strlen( TO ) + 1 );
     }
     else
     {

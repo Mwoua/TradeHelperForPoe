@@ -8,7 +8,7 @@
 /// @brief A QLineEdit with a "..." button to browse for file
 class BrowseLineEdit : public QLineEdit
 {
-    Q_OBJECT;
+    Q_OBJECT
 
   public:
     explicit BrowseLineEdit( std::function<void()> aBrowseCallback, QWidget *aParent = nullptr );

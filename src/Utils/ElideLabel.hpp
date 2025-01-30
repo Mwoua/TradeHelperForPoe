@@ -20,7 +20,7 @@ class ElideLabel : public QLabel
     QSize minimumSizeHint() const override;
 
   protected:
-    virtual void paintEvent( QPaintEvent *event );
+    virtual void paintEvent( QPaintEvent *event ) override;
 
   private:
     Qt::TextElideMode m_elideMode;

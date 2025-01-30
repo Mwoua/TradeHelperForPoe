@@ -5,7 +5,7 @@
 
 class TradeWidgetDisplayer : public QWidget
 {
-    Q_OBJECT;
+    Q_OBJECT
 
   public:
     explicit TradeWidgetDisplayer();

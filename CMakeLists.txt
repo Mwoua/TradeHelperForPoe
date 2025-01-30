@@ -13,6 +13,14 @@ else(WIN32)
    list(APPEND CMAKE_PREFIX_PATH ${Qt_Path})
 endif(WIN32)
 
+if(MSVC)
+    add_compile_options(/W4)
+    add_compile_options(/we4706 /we4275) #Assignement in if && dll link
+else(MSVC)
+    set(cxx_flags -Wsuggest-override -Werror=suggest-override)
+    add_compile_options(-Wall -Wextra -Wpedantic -Wno-unknown-pragmas "$<$<COMPILE_LANGUAGE:CXX>:${cxx_flags}>")
+endif(MSVC)
+
 find_package(Qt6 REQUIRED COMPONENTS Widgets Network)
 qt_standard_project_setup()
 set(CMAKE_AUTORCC true)

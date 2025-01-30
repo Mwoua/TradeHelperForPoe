@@ -52,9 +52,9 @@ void TradeWidgetDisplayer::AddTradeWidget( QWidget &aWidget )
                                          {
                                              hide();
                                          }
-                                         else if( auto *lLine = qobject_cast<QFrame *>( mMainLayout->itemAt( 0 )->widget() ) )
+                                         else if( auto *lLineToHide = qobject_cast<QFrame *>( mMainLayout->itemAt( 0 )->widget() ) )
                                          {
-                                             lLine->hide();
+                                             lLineToHide->hide();
                                          }
                                      } );
              } );

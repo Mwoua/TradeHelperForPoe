@@ -11,7 +11,7 @@ class TradeWidgetDisplayer;
 
 class TradeWidgetFactory : public QObject
 {
-    Q_OBJECT;
+    Q_OBJECT
 
   public:
     static void Create( TradeWidgetDisplayer &aTradeWidgetDisplayer, Trade aTrade, PoeVersion aVersion );

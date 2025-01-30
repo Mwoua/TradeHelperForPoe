@@ -8,7 +8,7 @@ class QLineEdit;
 /// Settings widget
 class Settings : public QWidget
 {
-    Q_OBJECT;
+    Q_OBJECT
 
   public:
     Settings();
