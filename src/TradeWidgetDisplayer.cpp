@@ -15,12 +15,9 @@ TradeWidgetDisplayer::TradeWidgetDisplayer()
     mMainLayout->setSpacing( 0 );
     mMainLayout->setSizeConstraint( QLayout::SetFixedSize );
 
-    const int lX     = Settings::TradeWidgetX();
-    const int lY     = Settings::TradeWidgetY();
-    if( lX != 0 && lY != 0 )
-    {
-        move( lX, lY );
-    }
+    const int lX = Settings::TradeWidgetX();
+    const int lY = Settings::TradeWidgetY();
+    move( lX, lY );
 }
 
 void TradeWidgetDisplayer::AddTradeWidget( QWidget &aWidget )
