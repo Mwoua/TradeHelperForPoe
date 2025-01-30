@@ -79,17 +79,17 @@ QLayout *TradeWidget::SetupUiFirstRow()
 
     auto *lPBThanks = new QPushButton( QIcon( ":/TradeHelper/Thanks" ), "" );
     lFirstRowLayout->addWidget( lPBThanks );
-    connect( lPBThanks, &QPushButton::clicked, this, [this]() { PoeCommand( "@" + mTrade.mUser + " " + Settings::Thanks().toStdString(), mPoeVersion, false ); } );
+    connect( lPBThanks, &QPushButton::clicked, this, [this]() { PoeCommand( "@" + mTrade.mUser + " " + Settings::Thanks().toStdString(), mPoeVersion ); } );
 
     auto *lPBLeave = new QPushButton( QIcon( ":/TradeHelper/Leave" ), "" );
     lFirstRowLayout->addWidget( lPBLeave );
-    connect( lPBLeave, &QPushButton::clicked, this, [this]() { PoeCommand( "/leave", mPoeVersion, false ); } );
+    connect( lPBLeave, &QPushButton::clicked, this, [this]() { PoeCommand( "/leave", mPoeVersion ); } );
 
     if( !mTrade.mIncoming )
     {
         auto *lPBHome = new QPushButton( QIcon( ":/TradeHelper/Home" ), "" );
         lFirstRowLayout->addWidget( lPBHome );
-        connect( lPBHome, &QPushButton::clicked, this, [this]() { PoeCommand( "/hideout", mPoeVersion, false ); } );
+        connect( lPBHome, &QPushButton::clicked, this, [this]() { PoeCommand( "/hideout", mPoeVersion ); } );
     }
 
     auto *lPBWhisp = new QPushButton( QIcon( ":/TradeHelper/Whisp" ), "" );
