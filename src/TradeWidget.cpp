@@ -114,9 +114,16 @@ QWidget *TradeWidget::SetupUiSecondRow()
     auto *lPBCustomer = new QPushButton( mTrade.mUser.c_str() );
     lPBCustomer->setFlat( true );
     lSecondRowLayout->addWidget( lPBCustomer );
+    lSecondRowLayout->insertSpacing( -1, 2 );
     connect( lPBCustomer, &QPushButton::clicked, this, [this]() { PoeCommand( "/whois " + mTrade.mUser, mPoeVersion ); } );
 
     lSecondRowLayout->addWidget( new ElideLabel( mTrade.mLeague.c_str() ) );
+    lSecondRowLayout->insertSpacing( -1, 2 );
+    if( mTrade.mStash.has_value() )
+    {
+        lSecondRowLayout->addWidget( new ElideLabel( mTrade.mStash.value().c_str() ) );
+        lSecondRowLayout->insertSpacing( -1, 2 );
+    }
     lSecondRowLayout->addStretch( 1 );
     if( mTrade.mComment.has_value() )
     {
@@ -146,13 +153,7 @@ QWidget *TradeWidget::SetupUiSecondRow()
 
         auto *lPBSearch = new QPushButton( QIcon( ":/TradeHelper/Search" ), "" );
         lSecondRowLayout->addWidget( lPBSearch );
-        connect( lPBSearch,
-                 &QPushButton::clicked,
-                 this,
-                 [this]()
-                 {
-                     PoeCommandSearch( mPoeVersion, mTrade.mItem  );
-                 } );
+        connect( lPBSearch, &QPushButton::clicked, this, [this]() { PoeCommandSearch( mPoeVersion, mTrade.mItem ); } );
     }
 
     auto *lPBKick = new QPushButton( QIcon( ":/TradeHelper/Kick" ), "" );
