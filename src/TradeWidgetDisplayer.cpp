@@ -8,7 +8,7 @@
 TradeWidgetDisplayer::TradeWidgetDisplayer()
     : mMainLayout( new QVBoxLayout( this ) )
 {
-    setWindowFlags( Qt::WindowStaysOnTopHint | Qt::Window | Qt::FramelessWindowHint );
+    setWindowFlags( Qt::WindowStaysOnTopHint | Qt::Window | Qt::FramelessWindowHint | Qt::SubWindow );
     setLayout( mMainLayout );
     setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
     mMainLayout->setContentsMargins( 1, 1, 1, 1 );

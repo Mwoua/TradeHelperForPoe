@@ -4,6 +4,7 @@
 #include "version.h"
 
 #include <QApplication>
+#include <QMainWindow>
 #include <QStyleHints>
 
 #ifdef _DEBUG
@@ -28,7 +29,6 @@ int main( int argc, char *argv[] )
 #ifdef _DEBUG
     std::cout << "App started" << std::endl;
 #endif
-
     TradeWidgetDisplayer lTradeWidgetDisplayer;
 
     const ClientMonitor lClientMonitor( lTradeWidgetDisplayer );
