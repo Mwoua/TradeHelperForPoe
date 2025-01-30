@@ -4,6 +4,7 @@
 #define WIN32_LEAN_AND_MEAN // Exclude rarely-used stuff from Windows headers
 #include "windows.h"
 
+#include <thread>
 #include <vector>
 
 namespace
@@ -48,7 +49,7 @@ void PoeCommand( const std::string &aCommand, PoeVersion aVersion, bool aSendCom
     SendInput( lInputs.size(), lInputs.data(), sizeof( INPUT ) );
 }
 
-void PoeCommandSearch( PoeVersion aVersion )
+void PoeCommandSearch( PoeVersion aVersion, const std::string &aToSearch )
 {
     if( !BringPoeToForeground( aVersion ) )
     {
@@ -65,6 +66,23 @@ void PoeCommandSearch( PoeVersion aVersion )
     lInputs[3] = lInputs[0];
     lInputs[3].ki.dwFlags |= KEYEVENTF_KEYUP;
 
+    SendInput( lInputs.size(), lInputs.data(), sizeof( INPUT ) );
+
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for( 500ms );
+
+    lInputs.clear();
+    for( auto ch : aToSearch )
+    {
+        INPUT input      = { 0 };
+        input.type       = INPUT_KEYBOARD;
+        input.ki.dwFlags = KEYEVENTF_UNICODE;
+        input.ki.wScan   = ch;
+        lInputs.push_back( input );
+
+        input.ki.dwFlags |= KEYEVENTF_KEYUP;
+        lInputs.push_back( input );
+    }
     SendInput( lInputs.size(), lInputs.data(), sizeof( INPUT ) );
 }
 
@@ -91,5 +109,5 @@ void PoeCommand( const std::string &aCommand, PoeVersion aVersion, bool aSendCom
 {
     // TODO
 }
-void PoeCommandSearch( PoeVersion aVersion ) {}
+void PoeCommandSearch( PoeVersion aVersion, const std::string &aToSearch ) {}
 #endif

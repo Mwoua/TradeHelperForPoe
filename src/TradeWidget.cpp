@@ -12,8 +12,6 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
-#include <thread>
-
 constexpr auto COLLAPSED_PROPERTY = "CollapseState";
 constexpr auto ARROW_DOWN         = "\u2b9f"; // ⮟
 constexpr auto ARROW_UP           = "\u2b9d"; // ⮝
@@ -153,10 +151,7 @@ QWidget *TradeWidget::SetupUiSecondRow()
                  this,
                  [this]()
                  {
-                     using namespace std::chrono_literals;
-                     PoeCommandSearch( mPoeVersion );
-                     std::this_thread::sleep_for( 500ms );
-                     PoeCommand( mTrade.mItem, mPoeVersion );
+                     PoeCommandSearch( mPoeVersion, mTrade.mItem  );
                  } );
     }
 
