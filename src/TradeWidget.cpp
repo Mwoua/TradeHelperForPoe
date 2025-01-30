@@ -204,7 +204,7 @@ QWidget *TradeWidget::BuildTradePriceWidget()
     auto *lReturn = new QWidget;
     auto *lLayout = new QHBoxLayout( lReturn );
 
-    auto *lLb1 = new ElideLabel( mTrade.mPrice.value_or( "" ).c_str() );
+    auto *lLb1 = new QLabel( mTrade.mPrice.value_or( "" ).c_str() );
     lLayout->addWidget( lLb1 );
     // TODO parse item string to display the currency
 
