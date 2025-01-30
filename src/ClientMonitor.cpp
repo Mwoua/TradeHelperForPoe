@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QFileSystemWatcher>
 #include <QThread>
+#include <QTimer>
 
 #include <fstream>
 
@@ -50,6 +51,18 @@ void ClientMonitor::MonitorTextFile()
                 lWatcher2, &QFileSystemWatcher::fileChanged, this, [this]( const QString &aFile ) { ReadChangedFileContents( aFile, mLastReadPosition2, PoeVersion::Poe2 ); } );
         }
     }
+    // QFileSystemWatcher does not detect changes made by Poe directly (I guess windows does not always refresh the status
+    // so poll it regularly to actually trigger the signals
+    auto *lForceUpdateTimer = new QTimer( this );
+    connect( lForceUpdateTimer,
+             &QTimer::timeout,
+             this,
+             []()
+             {
+                 QFile().exists( Settings::GetPoe1Client() );
+                 QFile().exists( Settings::GetPoe2Client() );
+             } );
+    lForceUpdateTimer->start( 500 );
 }
 
 void ClientMonitor::ReadChangedFileContents( const QString &aFile, std::streampos &aLastReadPosition, PoeVersion aVersion )
