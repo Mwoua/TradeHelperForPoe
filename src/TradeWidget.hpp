@@ -12,7 +12,7 @@ class QHBoxLayout;
 
 class TradeWidget : public QWidget
 {
-    Q_OBJECT;
+    Q_OBJECT
 
   public:
     TradeWidget( Trade aTrade, PoeVersion aVersion );

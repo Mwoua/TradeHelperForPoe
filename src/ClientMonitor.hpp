@@ -10,7 +10,7 @@ class TradeWidgetDisplayer;
 /// Manage a thread to monitor both client text file
 class ClientMonitor : public QObject
 {
-    Q_OBJECT;
+    Q_OBJECT
 
   public:
     ClientMonitor( TradeWidgetDisplayer &aTradeWidgetDisplayer );

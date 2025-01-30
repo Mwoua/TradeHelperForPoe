@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 
 AboutForm::AboutForm( QWidget *aParent )
+    : QDialog( aParent )
 {
     setWindowTitle( "About " );
     setMinimumSize( 200, 50 ); // Workaround this bug https://bugreports.qt.io/browse/QTBUG-73258

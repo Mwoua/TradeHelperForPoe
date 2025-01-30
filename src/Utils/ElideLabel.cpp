@@ -1,4 +1,4 @@
-#include "elidelabel.hpp"
+#include "ElideLabel.hpp"
 
 #include <QPainter>
 
