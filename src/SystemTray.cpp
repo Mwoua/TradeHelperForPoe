@@ -9,6 +9,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QSettings>
 
 #include <regex>
 
@@ -45,6 +46,11 @@ void SetupSystemTray( QSystemTrayIcon &aSystemTray )
 
     aSystemTray.setContextMenu( lTrayIconMenu );
 
+    if( QSettings().allKeys().size() == 0 )
+    {
+        lSettingsAction->trigger();
+    }
+
     auto *lManager = new QNetworkAccessManager( &aSystemTray );
     QObject::connect( lManager, &QNetworkAccessManager::finished, &aSystemTray, [&aSystemTray]( QNetworkReply *aReply ) { CheckForUpdate( aSystemTray, aReply ); } );
     lManager->get( QNetworkRequest( QUrl( "https://raw.githubusercontent.com/Mwoua/TradeHelperForPoe/refs/heads/main/src/version.h" ) ) );
@@ -74,7 +80,7 @@ namespace
                 if( lLatestMajor > TRADEHELPER_MAJOR_VERSION || lLatestMinor > TRADEHELPER_MINOR_VERSION || lLatestPatch > TRADEHELPER_PATCH_VERSION )
                 {
                     aSystemTray.setToolTip( "New version available" );
-                    aSystemTray.setIcon(QIcon( ":/TradeHelperForPoe_msg.ico" ));
+                    aSystemTray.setIcon( QIcon( ":/TradeHelperForPoe_msg.ico" ) );
                 }
             }
         }

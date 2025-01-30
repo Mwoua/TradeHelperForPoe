@@ -31,6 +31,8 @@ class ResizeWidget : public QWidget
   public:
     explicit ResizeWidget( QWidget &aWidgetToResizeAndPosition )
     {
+        setObjectName( "ResizeWidget" );
+        setStyleSheet( "#ResizeWidget {border: 5px solid red;}" );
         aWidgetToResizeAndPosition.setFixedWidth( QWIDGETSIZE_MAX ); // remove constraints
         auto *lLayout = new QVBoxLayout( this );
         lLayout->setContentsMargins( 0, 0, 0, 0 );
@@ -184,9 +186,13 @@ void Settings::DisplayExampleWidget()
                         .mPositionTop  = "0",
                         .mComment      = "Comment" };
 
-    auto *lSampleTradeWidget = new TradeWidget( std::move( lSampleTrade ), PoeVersion::Poe1 );
-    mPositionTradeWidget     = new ResizeWidget( *lSampleTradeWidget );
-    mPositionTradeWidget->move( TradeWidgetX(), TradeWidgetY() );
+    auto *lSampleTradeWidget        = new TradeWidget( std::move( lSampleTrade ), PoeVersion::Poe1 );
+    mPositionTradeWidget            = new ResizeWidget( *lSampleTradeWidget );
+    const QStringList lSettingsKeys = QSettings().allKeys();
+    if( lSettingsKeys.contains( SETTINGS_TRADE_POS_X ) || lSettingsKeys.contains( SETTINGS_TRADE_POS_Y ) )
+    {
+        mPositionTradeWidget->move( TradeWidgetX(), TradeWidgetY() );
+    }
 
     mPositionTradeWidget->show();
     connect( this, &QWidget::destroyed, mPositionTradeWidget, [this]() { mPositionTradeWidget->deleteLater(); } );
