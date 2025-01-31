@@ -164,6 +164,9 @@ void StringParser::MatchToTradeItem( Trade &aTradeInfo, Matches aMatchType, cons
     case StringParser::Matches::PositionTop:
         aTradeInfo.mPositionTop = aValue;
         break;
+    case StringParser::Matches::Comment:
+        aTradeInfo.mComment = aValue;
+        break;
     default:
         break;
     }
