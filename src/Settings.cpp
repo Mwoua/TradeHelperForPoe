@@ -162,6 +162,7 @@ void Settings::SaveSettings()
     // constexpr auto SETTINGS_CUSTOM2             = "CUSTOM2";
     // constexpr auto SETTINGS_THANKS              = "THANKS";
 
+    emit SettingsChanged();
     close();
 }
 

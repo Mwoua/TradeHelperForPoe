@@ -1,6 +1,7 @@
 #include "SystemTray.hpp"
 
 #include "AboutForm.hpp"
+#include "ClientMonitor.hpp"
 #include "Settings.hpp"
 #include "version.h"
 
@@ -18,7 +19,7 @@ namespace
     void CheckForUpdate( QSystemTrayIcon &aSystemTray, QNetworkReply *aReply );
 }
 
-void SetupSystemTray( QSystemTrayIcon &aSystemTray )
+void SetupSystemTray( QSystemTrayIcon &aSystemTray, std::unique_ptr<ClientMonitor> &aClientMonitor )
 {
     aSystemTray.setIcon( QIcon( ":/TradeHelperForPoe.ico" ) );
 
@@ -26,9 +27,10 @@ void SetupSystemTray( QSystemTrayIcon &aSystemTray )
     QObject::connect( lSettingsAction,
                       &QAction::triggered,
                       &aSystemTray,
-                      []()
+                      [&aClientMonitor]()
                       {
                           auto lSettings = new Settings();
+                          QObject::connect( lSettings, &Settings::SettingsChanged, aClientMonitor.get(), [&aClientMonitor]() { aClientMonitor.reset( new ClientMonitor ); } );
                           lSettings->show();
                       } );
 

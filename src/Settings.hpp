@@ -23,6 +23,9 @@ class Settings : public QWidget
     static QString CustomMessage2();
     static QString Thanks();
 
+  signals:
+    void SettingsChanged();
+
   private:
     void SetupUi();
     void SaveSettings();

@@ -3,4 +3,6 @@
 #include <QMenu>
 #include <QSystemTrayIcon>
 
-void SetupSystemTray( QSystemTrayIcon &aSystemTray );
+class ClientMonitor;
+
+void SetupSystemTray( QSystemTrayIcon &aSystemTray, std::unique_ptr<ClientMonitor> &aClientMonitor );

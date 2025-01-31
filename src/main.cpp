@@ -1,11 +1,12 @@
 #include "ClientMonitor.hpp"
 #include "SystemTray.hpp"
-#include "TradeWidgetDisplayer.hpp"
 #include "version.h"
 
 #include <QApplication>
 #include <QMainWindow>
 #include <QStyleHints>
+
+#include <memory>
 
 #ifdef _DEBUG
 #include <iostream>
@@ -22,16 +23,14 @@ int main( int argc, char *argv[] )
     QApplication::setStyle( "Fusion" );
     QGuiApplication::styleHints()->setColorScheme( Qt::ColorScheme::Dark );
 
+    auto lClientMonitor = std::make_unique<ClientMonitor>();
     QSystemTrayIcon lTrayIcon;
-    SetupSystemTray( lTrayIcon );
+    SetupSystemTray( lTrayIcon, lClientMonitor );
     lTrayIcon.show();
 
 #ifdef _DEBUG
     std::cout << "App started" << std::endl;
 #endif
-    TradeWidgetDisplayer lTradeWidgetDisplayer;
-
-    const ClientMonitor lClientMonitor( lTradeWidgetDisplayer );
 
     return lApp.exec();
 }

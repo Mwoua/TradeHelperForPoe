@@ -10,9 +10,8 @@
 
 #include <fstream>
 
-ClientMonitor::ClientMonitor( TradeWidgetDisplayer &aTradeWidgetDisplayer )
+ClientMonitor::ClientMonitor( )
     : mMonitor1( new QThread( this ) )
-    , mTradeWidgetDisplayer( aTradeWidgetDisplayer )
 {
     connect( mMonitor1, &QThread::started, this, [this]() { MonitorTextFile(); } );
     mMonitor1->start();
