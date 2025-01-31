@@ -34,4 +34,6 @@ class Settings : public QWidget
 
     BrowseLineEdit *mLEPoe1Client = nullptr, *mLEPoe2Client = nullptr;
     QWidget *mPositionTradeWidget = nullptr;
+    QLineEdit *mLEThank = nullptr, *mLEBusy = nullptr;
+    QLineEdit *mLECustom1 = nullptr, *mLECustom2 = nullptr;
 };

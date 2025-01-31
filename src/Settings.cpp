@@ -6,7 +6,7 @@
 
 #include <QDialogButtonBox>
 #include <QFileDialog>
-#include <QFormLayout>
+#include <QGridLayout>
 #include <QLabel>
 #include <QMouseEvent>
 #include <QSettings>
@@ -127,22 +127,51 @@ QString Settings::Thanks()
 
 void Settings::SetupUi()
 {
-    auto *lLayout = new QFormLayout( this );
+    int lLine     = 0;
+    auto *lLayout = new QGridLayout( this );
 
     mLEPoe1Client = new BrowseLineEdit();
     mLEPoe1Client->SetCallback( [this]() { Settings::Browse( mLEPoe1Client ); } );
     mLEPoe1Client->setText( GetPoe1Client() );
     mLEPoe1Client->setPlaceholderText( "Path to client.txt" );
-    lLayout->addRow( "Poe1 client.txt", mLEPoe1Client );
+    lLayout->addWidget( new QLabel( "Poe1 client.txt" ), lLine, 0 );
+    lLayout->addWidget( mLEPoe1Client, lLine, 1, 1, -1 );
+    ++lLine;
 
     mLEPoe2Client = new BrowseLineEdit();
     mLEPoe2Client->SetCallback( [this]() { Settings::Browse( mLEPoe2Client ); } );
     mLEPoe2Client->setText( GetPoe2Client() );
     mLEPoe2Client->setPlaceholderText( "Path to client.txt" );
-    lLayout->addRow( "Poe2 client.txt", mLEPoe2Client );
+    lLayout->addWidget( new QLabel( "Poe2 client.txt" ), lLine, 0 );
+    lLayout->addWidget( mLEPoe2Client, lLine, 1, 1, -1 );
+    ++lLine;
+
+    mLEThank = new QLineEdit;
+    mLEThank->setText( Thanks() );
+    lLayout->addWidget( new QLabel( "Thanks message" ), lLine, 0 );
+    lLayout->addWidget( mLEThank, lLine, 1, 1, -1 );
+    ++lLine;
+
+    mLECustom1 = new QLineEdit;
+    mLECustom1->setText( CustomMessage1() );
+    lLayout->addWidget( new QLabel( "Custom message 1" ), lLine, 0 );
+    lLayout->addWidget( mLECustom1, lLine, 1, 1, -1 );
+    ++lLine;
+
+    mLECustom2 = new QLineEdit;
+    mLECustom2->setText( CustomMessage2() );
+    lLayout->addWidget( new QLabel( "Custom message 2" ), lLine, 0 );
+    lLayout->addWidget( mLECustom2, lLine, 1, 1, -1 );
+    ++lLine;
+
+    mLEBusy = new QLineEdit;
+    mLEBusy->setText( BusyString() );
+    lLayout->addWidget( new QLabel( "Busy message" ), lLine, 0 );
+    lLayout->addWidget( mLEBusy, lLine, 1, 1, -1 );
+    ++lLine;
 
     auto *lButtons = new QDialogButtonBox( QDialogButtonBox::Ok | QDialogButtonBox::Cancel );
-    lLayout->addRow( lButtons );
+    lLayout->addWidget( lButtons, lLine, 0, 1, -1 );
     connect( lButtons->button( QDialogButtonBox::Ok ), &QPushButton::clicked, this, &Settings::SaveSettings );
     connect( lButtons, &QDialogButtonBox::rejected, this, &QWidget::close );
 }
@@ -155,12 +184,12 @@ void Settings::SaveSettings()
     lSettings.setValue( SETTINGS_TRADE_WIDTH, mPositionTradeWidget->layout()->itemAt( 0 )->widget()->width() );
     lSettings.setValue( SETTINGS_TRADE_POS_X, mPositionTradeWidget->x() );
     lSettings.setValue( SETTINGS_TRADE_POS_Y, mPositionTradeWidget->y() );
+    lSettings.setValue( SETTINGS_THANKS, mLEThank->text() );
+    lSettings.setValue( SETTINGS_CUSTOM1, mLECustom1->text() );
+    lSettings.setValue( SETTINGS_CUSTOM2, mLECustom2->text() );
+    lSettings.setValue( SETTINGS_BUSY_STRING, mLEBusy->text() );
 
     // constexpr auto SETTINGS_TRADE_TOP_TO_BOTTOM = "TRADE_TOP_TO_BOT";
-    // constexpr auto SETTINGS_BUSY_STRING         = "BUSY";
-    // constexpr auto SETTINGS_CUSTOM1             = "CUSTOM1";
-    // constexpr auto SETTINGS_CUSTOM2             = "CUSTOM2";
-    // constexpr auto SETTINGS_THANKS              = "THANKS";
 
     emit SettingsChanged();
     close();
