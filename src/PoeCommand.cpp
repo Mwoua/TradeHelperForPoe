@@ -19,7 +19,6 @@ void PoeCommand( const std::string &aCommand, PoeVersion aVersion, bool aSendCom
     {
         return;
     }
-    // TODO convert utf8 command to unicode https://stackoverflow.com/a/59730985/1156580
 
     std::vector<INPUT> lInputs;
     INPUT lEnterInputDown{};
@@ -29,16 +28,38 @@ void PoeCommand( const std::string &aCommand, PoeVersion aVersion, bool aSendCom
     lEnterInputUp.ki.dwFlags = KEYEVENTF_KEYUP;
     lInputs.push_back( lEnterInputDown );
     lInputs.push_back( lEnterInputUp );
-    for( auto ch : aCommand )
-    {
-        INPUT input      = { 0 };
-        input.type       = INPUT_KEYBOARD;
-        input.ki.dwFlags = KEYEVENTF_UNICODE;
-        input.ki.wScan   = ch;
-        lInputs.push_back( input );
 
-        input.ki.dwFlags |= KEYEVENTF_KEYUP;
-        lInputs.push_back( input );
+    if( const int lSize = MultiByteToWideChar( CP_UTF8, 0, aCommand.c_str(), aCommand.size(), nullptr, 0 ); lSize <= 0 )
+    {
+        // failed conversion, fallback to ascii
+        for( auto ch : aCommand )
+        {
+            INPUT input      = { 0 };
+            input.type       = INPUT_KEYBOARD;
+            input.ki.dwFlags = KEYEVENTF_UNICODE;
+            input.ki.wScan   = ch;
+            lInputs.push_back( input );
+
+            input.ki.dwFlags |= KEYEVENTF_KEYUP;
+            lInputs.push_back( input );
+        }
+    }
+    else
+    {
+        std::wstring lUTF16String;
+        lUTF16String.resize( lSize );
+        MultiByteToWideChar( CP_UTF8, 0, aCommand.c_str(), aCommand.size(), lUTF16String.data(), lUTF16String.size() );
+        for( auto ch : lUTF16String )
+        {
+            INPUT input      = { 0 };
+            input.type       = INPUT_KEYBOARD;
+            input.ki.dwFlags = KEYEVENTF_UNICODE;
+            input.ki.wScan   = ch;
+            lInputs.push_back( input );
+
+            input.ki.dwFlags |= KEYEVENTF_KEYUP;
+            lInputs.push_back( input );
+        }
     }
     if( aSendCommand )
     {
@@ -91,7 +112,7 @@ namespace
     bool BringPoeToForeground( PoeVersion aVersion )
     {
 #ifdef _DEBUG
-        if( auto lHandle = FindWindow( NULL, R"(C:\Users\User1217\Desktop\TradeHelperForPoe\Client1.txt - Notepad++)" ) )
+        if( auto lHandle = FindWindow( NULL, R"(*nouveau 1 - Notepad++)" ) )
 #else
         if( auto lHandle = FindWindow( NULL, ( aVersion == PoeVersion::Poe1 ) ? "Path of Exile" : "Path of Exile 2" ) )
 #endif
