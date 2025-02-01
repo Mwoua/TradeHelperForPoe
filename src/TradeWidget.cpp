@@ -6,7 +6,9 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPainter>
 #include <QPushButton>
+#include <QStyleOption>
 #include <QTime>
 #include <QTimer>
 #include <QToolButton>
@@ -15,13 +17,14 @@
 constexpr auto COLLAPSED_PROPERTY = "CollapseState";
 constexpr auto ARROW_DOWN         = "\u2b9f"; // ⮟
 constexpr auto ARROW_UP           = "\u2b9d"; // ⮝
+constexpr auto SIDE_COLOR_SIZE    = 5;
 
 TradeWidget::TradeWidget( Trade aTrade, PoeVersion aVersion )
     : mPoeVersion( aVersion )
     , mTrade( std::move( aTrade ) )
 {
     SetupUi();
-    setStyleSheet( "QAbstractButton { padding: 1px; }" );
+    setStyleSheet( QString( "TradeWidget{border-left: %1px solid %2;}QAbstractButton { padding: 1px; }" ).arg( SIDE_COLOR_SIZE ).arg( aTrade.mIncoming ? "green" : "red" ) );
     const int lWidth = Settings::TradeWidgetWidth();
     setFixedWidth( lWidth );
 }
@@ -29,7 +32,7 @@ TradeWidget::TradeWidget( Trade aTrade, PoeVersion aVersion )
 void TradeWidget::SetupUi()
 {
     auto *lMainLayout = new QVBoxLayout( this );
-    lMainLayout->setContentsMargins( 0, 0, 0, 0 );
+    lMainLayout->setContentsMargins( SIDE_COLOR_SIZE, 0, 0, 0 );
     lMainLayout->setSpacing( 1 );
 
     lMainLayout->addLayout( SetupUiFirstRow() );
@@ -248,4 +251,13 @@ void TradeWidget::ManageCollaspeState()
         mCollapseButton->setProperty( COLLAPSED_PROPERTY, true );
         mSecondRow->hide();
     }
+}
+
+void TradeWidget::paintEvent( QPaintEvent *e )
+{
+    // Needed so that stylesheet is correctly applied to the global widget
+    QStyleOption opt;
+    opt.initFrom( this );
+    QPainter p( this );
+    style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }

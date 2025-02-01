@@ -27,6 +27,8 @@ class TradeWidget : public QWidget
     void UpdateTime();
     void ManageCollaspeState();
 
+    void paintEvent(QPaintEvent *e) override;
+
     const PoeVersion mPoeVersion;
     const Trade mTrade;
 
