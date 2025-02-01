@@ -1,5 +1,6 @@
 ﻿#include "TradeWidget.hpp"
 
+#include "Currencies.hpp"
 #include "PoeCommand.hpp"
 #include "Settings.hpp"
 #include "Utils/ElideLabel.hpp"
@@ -225,10 +226,44 @@ QWidget *TradeWidget::BuildTradeItemWidget()
 QWidget *TradeWidget::BuildTradePriceWidget()
 {
     auto *lReturn = new QWidget;
-    auto *lLayout = new QHBoxLayout( lReturn );
 
-    auto *lLb1 = new QLabel( mTrade.mPrice.value_or( "" ).c_str() );
-    lLayout->addWidget( lLb1 );
+    if( mTrade.mPrice.has_value() )
+    {
+        const std::string lPrice = mTrade.mPrice.value();
+        lReturn->setToolTip( lPrice.c_str() );
+        auto *lLayout = new QHBoxLayout( lReturn );
+        lLayout->setContentsMargins( 0, 0, 0, 0 );
+        lLayout->setSpacing( 2 );
+        const std::string lAmount = lPrice.substr( 0, lPrice.find( ' ' ) );
+        std::string lCurrency     = lPrice.substr( lPrice.find( ' ' ) + 1 );
+
+        try
+        {
+            if( lCurrency.size() > 0 )
+            {
+                QWidget lDummyParent; // To correctly delete labels in case of exception
+                auto *lLbCount = new QLabel( lAmount.c_str(), &lDummyParent );
+                auto *lLbImage = new QLabel( &lDummyParent );
+
+                const std::unordered_map<std::string, std::string> &lCurrencies = mPoeVersion == PoeVersion::Poe1 ? CURRENCIES_POE1.at( mTrade.mLanguage ) : CURRENCIES_POE2.at( mTrade.mLanguage );
+                lLbImage->setPixmap( QPixmap( lCurrencies.at( lCurrency ).c_str() ) );
+
+                lLayout->addWidget( lLbCount );
+                lLayout->addWidget( lLbImage );
+            }
+            else
+            {
+                throw std::invalid_argument( "Unexpected input format" );
+            }
+        }
+        catch( const std::exception & )
+        {
+            // Error, just write the string
+            auto *lLb1 = new QLabel( mTrade.mPrice.value().c_str() );
+            lLayout->addWidget( lLb1 );
+        }
+    }
+
     // TODO parse item string to display the currency
 
     return lReturn;

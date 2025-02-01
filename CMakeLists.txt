@@ -40,6 +40,7 @@ target_sources(TradeHelperForPoe
         src/AboutForm.hpp
         src/ClientMonitor.cpp
         src/ClientMonitor.hpp
+        src/Currencies.hpp
         src/PoeCommand.cpp
         src/PoeCommand.hpp
         src/Settings.cpp

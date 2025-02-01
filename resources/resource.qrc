@@ -20,4 +20,20 @@
         <file alias="Thanks">TradeHelper/thanks.png</file>
         <file alias="Trade">TradeHelper/trade.png</file>
     </qresource>
+	<qresource prefix="/Poe1">
+		<file alias="alch">Poe1/alchemy.png</file>
+		<file alias="annul">Poe1/annulment.png</file>
+		<file alias="chaos">Poe1/chaos.png</file>
+		<file alias="divine">Poe1/divine.png</file>
+		<file alias="exalted">Poe1/exalted.png</file>
+		<file alias="mirror">Poe1/mirror.png</file>
+	</qresource>
+	<qresource prefix="/Poe2">
+		<file alias="alch">Poe2/alchemy.png</file>
+		<file alias="annul">Poe2/annulment.png</file>
+		<file alias="chaos">Poe2/chaos.png</file>
+		<file alias="divine">Poe2/divine.png</file>
+		<file alias="exalted">Poe2/exalted.png</file>
+		<file alias="mirror">Poe2/mirror.png</file>
+	</qresource>
 </RCC>
