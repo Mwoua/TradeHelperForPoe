@@ -2,6 +2,7 @@
 
 #include "Defines.hpp"
 
+#include <regex>
 #include <string>
 
 class TradeWidgetDisplayer;
@@ -12,6 +13,7 @@ class StringParser
   public:
     StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::string aLine, PoeVersion aVersion );
 
+  private:
     enum class Matches
     {
         Item,
@@ -24,6 +26,14 @@ class StringParser
         Comment
     };
 
-  private:
+    struct Regex
+    {
+        std::regex mRegex;
+        std::vector<StringParser::Matches> mMatches;
+        Language mLanguage;
+    };
+
+    static const std::vector<StringParser::Regex> REGEXES;
+
     void MatchToTradeItem( Trade &aTradeInfo, Matches aMatchType, const std::string &aValue );
 };

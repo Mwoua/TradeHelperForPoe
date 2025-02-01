@@ -7,30 +7,32 @@
 constexpr auto FROM = "@From";
 constexpr auto TO   = "@To";
 
-// all regexes, associated with what they match
-const std::vector<std::pair<std::regex, std::vector<StringParser::Matches>>> REGEXES{
-    // English Trades
-    { std::regex( "(.+): Hi, I would like to buy your (.*) listed for (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*)" ),
-      { StringParser::Matches::User,
-        StringParser::Matches::Item,
-        StringParser::Matches::Price,
-        StringParser::Matches::League,
-        StringParser::Matches::Stash,
-        StringParser::Matches::PositionLeft,
-        StringParser::Matches::PositionTop,
-        StringParser::Matches::Comment } },
-    { std::regex( "(.+): Hi, I would like to buy your (.*) listed for (.*) in (.*)" ),
-      { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
-    { std::regex( "(.+): Hi, I would like to buy your (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*)" ),
-      { StringParser::Matches::User,
-        StringParser::Matches::Item,
-        StringParser::Matches::League,
-        StringParser::Matches::Stash,
-        StringParser::Matches::PositionLeft,
-        StringParser::Matches::PositionTop,
-        StringParser::Matches::Comment } },
-    { std::regex( "(.+): Hi, I'd like to buy your (.*) for my (.*) in (.*)" ),
-      { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } } };
+const std::vector<StringParser::Regex> StringParser::REGEXES = {
+    { .mRegex    = std::regex( "(.+): Hi, I would like to buy your (.*) listed for (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*)" ),
+      .mMatches  = { StringParser::Matches::User,
+                     StringParser::Matches::Item,
+                     StringParser::Matches::Price,
+                     StringParser::Matches::League,
+                     StringParser::Matches::Stash,
+                     StringParser::Matches::PositionLeft,
+                     StringParser::Matches::PositionTop,
+                     StringParser::Matches::Comment },
+      .mLanguage = Language::English },
+    { .mRegex    = std::regex( "(.+): Hi, I would like to buy your (.*) listed for (.*) in (.*)" ),
+      .mMatches  = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League },
+      .mLanguage = Language::English },
+    { .mRegex    = std::regex( "(.+): Hi, I would like to buy your (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*)" ),
+      .mMatches  = { StringParser::Matches::User,
+                     StringParser::Matches::Item,
+                     StringParser::Matches::League,
+                     StringParser::Matches::Stash,
+                     StringParser::Matches::PositionLeft,
+                     StringParser::Matches::PositionTop,
+                     StringParser::Matches::Comment },
+      .mLanguage = Language::English },
+    { .mRegex    = std::regex( "(.+): Hi, I'd like to buy your (.*) for my (.*) in (.*)" ),
+      .mMatches  = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League },
+      .mLanguage = Language::English } };
 
 //// Portuguese Trades
 // std::regex poeTradeRegexPOR =
@@ -120,18 +122,19 @@ StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::st
     std::smatch lMatches;
     for( const auto &lRegexPair : REGEXES )
     {
-        if( std::regex_match( aLine, lMatches, lRegexPair.first ) )
+        if( std::regex_match( aLine, lMatches, lRegexPair.mRegex ) )
         {
-            if( ( lMatches.size() - 1 ) != lRegexPair.second.size() )
+            if( ( lMatches.size() - 1 ) != lRegexPair.mMatches.size() )
             {
                 // Robustness, should not happen
                 return;
             }
+            lTrade.mLanguage     = lRegexPair.mLanguage;
             lTrade.mEntireString = lMatches[0];
             lTrade.mEntireString.erase( 0, lTrade.mEntireString.find( ':' ) + 2 );
             for( auto i = 0U; i < lMatches.size() - 1; ++i )
             {
-                MatchToTradeItem( lTrade, lRegexPair.second[i], lMatches[i + 1].str() );
+                MatchToTradeItem( lTrade, lRegexPair.mMatches[i], lMatches[i + 1].str() );
             }
             TradeWidgetFactory::Create( aTradeWidgetDisplayer, std::move( lTrade ), aVersion );
             return;

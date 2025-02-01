@@ -9,8 +9,14 @@ enum class PoeVersion
     Poe2
 };
 
+enum class Language
+{
+    English
+};
+
 struct Trade
 {
+    Language mLanguage                       = Language::English;
     std::string mEntireString                = "";
     bool mIncoming                           = false;
     std::string mItem                        = "";
