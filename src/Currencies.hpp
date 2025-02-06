@@ -26,8 +26,8 @@ constexpr auto POE2_MIRROR = ":/Poe2/mirror";
 
 const std::unordered_map<Language, std::unordered_map<std::string, std::string>> CURRENCIES_POE1{
     { Language::English,
-      { { "chaos", POE2_CHAOS }, { "divine", POE2_DIV }, { "exalted", POE2_EX }, { "mirror", POE2_MIRROR }, { "alchemy", POE2_ALCH }, { "annulment", POE2_ANNUL } } } };
+      { { "chaos", POE1_CHAOS }, { "divine", POE1_DIV }, { "exalted", POE1_EX }, { "mirror", POE1_MIRROR }, { "alchemy", POE1_ALCH }, { "annulment", POE1_ANNUL } } } };
 
 const std::unordered_map<Language, std::unordered_map<std::string, std::string>> CURRENCIES_POE2{
     { Language::English,
-      { { "chaos", POE1_CHAOS }, { "divine", POE1_DIV }, { "exalted", POE1_EX }, { "mirror", POE1_MIRROR }, { "alchemy", POE1_ALCH }, { "annulment", POE1_ANNUL } } } };
+      { { "chaos", POE2_CHAOS }, { "divine", POE2_DIV }, { "exalted", POE2_EX }, { "mirror", POE2_MIRROR }, { "alchemy", POE2_ALCH }, { "annulment", POE2_ANNUL } } } };
