@@ -241,13 +241,11 @@ QWidget *TradeWidget::BuildTradePriceWidget()
         {
             if( lCurrency.size() > 0 )
             {
-                QWidget lDummyParent; // To correctly delete labels in case of exception
-                auto *lLbCount = new QLabel( lAmount.c_str(), &lDummyParent );
-                auto *lLbImage = new QLabel( &lDummyParent );
+                const std::string lCurrencyPath = CurrencyToImageString( CURRENCIES.at( mTrade.mLanguage ).at( lCurrency ), mPoeVersion );
 
-                const std::unordered_map<std::string, std::string> &lCurrencies = mPoeVersion == PoeVersion::Poe1 ? CURRENCIES_POE1.at( mTrade.mLanguage ) : CURRENCIES_POE2.at( mTrade.mLanguage );
-                lLbImage->setPixmap( QPixmap( lCurrencies.at( lCurrency ).c_str() ) );
-
+                auto *lLbCount = new QLabel( lAmount.c_str() );
+                auto *lLbImage = new QLabel();
+                lLbImage->setPixmap( QPixmap( lCurrencyPath.c_str() ) );
                 lLayout->addWidget( lLbCount );
                 lLayout->addWidget( lLbImage );
             }
