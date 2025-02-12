@@ -4,6 +4,7 @@
 
 #include <regex>
 #include <string>
+#include <unordered_map>
 
 class TradeWidgetDisplayer;
 
@@ -16,6 +17,7 @@ class StringParser
   private:
     enum class Matches
     {
+        FromTo,
         Item,
         User,
         Price,
@@ -30,10 +32,10 @@ class StringParser
     {
         std::regex mRegex;
         std::vector<StringParser::Matches> mMatches;
-        Language mLanguage;
     };
 
-    static const std::vector<StringParser::Regex> REGEXES;
+    static const std::unordered_map<Language, std::vector<StringParser::Regex>> REGEXES;
 
-    void MatchToTradeItem( Trade &aTradeInfo, Matches aMatchType, const std::string &aValue );
+    static bool StringToLanguageAndIncoming( const std::string &aInputString, Trade &aTradeInfo );
+    static void MatchToTradeItem( Trade &aTradeInfo, Matches aMatchType, const std::string &aValue );
 };
