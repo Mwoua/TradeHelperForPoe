@@ -8,10 +8,6 @@
 
 #include <memory>
 
-#ifdef _DEBUG
-#include <iostream>
-#endif
-
 int main( int argc, char *argv[] )
 {
     const QApplication lApp( argc, argv );
@@ -27,10 +23,6 @@ int main( int argc, char *argv[] )
     QSystemTrayIcon lTrayIcon;
     SetupSystemTray( lTrayIcon, lClientMonitor );
     lTrayIcon.show();
-
-#ifdef _DEBUG
-    std::cout << "App started" << std::endl;
-#endif
 
     return lApp.exec();
 }

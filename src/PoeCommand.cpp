@@ -103,11 +103,7 @@ void PoeCommandSearch( PoeVersion aVersion, const std::string &aToSearch )
 
 bool BringPoeToForeground( PoeVersion aVersion )
 {
-#ifdef _DEBUG
-    if( auto lHandle = FindWindow( NULL, R"(*nouveau 1 - Notepad++)" ) )
-#else
     if( auto lHandle = FindWindow( NULL, ( aVersion == PoeVersion::Poe1 ) ? "Path of Exile" : "Path of Exile 2" ) )
-#endif
     {
         return SetForegroundWindow( lHandle );
     }
