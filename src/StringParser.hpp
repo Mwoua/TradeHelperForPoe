@@ -17,7 +17,6 @@ class StringParser
   private:
     enum class Matches
     {
-        FromTo,
         Item,
         User,
         Price,

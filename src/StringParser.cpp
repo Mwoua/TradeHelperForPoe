@@ -1,4 +1,4 @@
-﻿#include "StringParser.hpp"
+#include "StringParser.hpp"
 
 #include "TradeWidgetFactory.hpp"
 
@@ -6,9 +6,9 @@
 
 const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParser::REGEXES = {
     { Language::English,
-      { { .mRegex = std::regex( R"((\S+) (.+): Hi, I would like to buy your (.*) listed for (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*))" ),
-          .mMatches = { StringParser::Matches::FromTo,
-                        StringParser::Matches::User,
+      { { .mRegex =
+              std::regex( R"((?:\S+) (.+): Hi, I would like to buy your (.*) listed for (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*))" ),
+          .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::Price,
                         StringParser::Matches::League,
@@ -16,20 +16,42 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex   = std::regex( R"((\S+) (.+): Hi, I would like to buy your (.*) listed for (.*) in (.*))" ),
-          .mMatches = { StringParser::Matches::FromTo, StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
-        { .mRegex   = std::regex( R"((\S+) (.+): Hi, I would like to buy your (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*))" ),
-          .mMatches = { StringParser::Matches::FromTo,
-                        StringParser::Matches::User,
+        { .mRegex   = std::regex( R"((?:\S+) (.+): Hi, I would like to buy your (.*) listed for (.*) in (.*))" ),
+          .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
+        { .mRegex   = std::regex( R"((?:\S+) (.+): Hi, I would like to buy your (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*))" ),
+          .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::League,
                         StringParser::Matches::Stash,
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex   = std::regex( R"((\S+) (.+): Hi, I'd like to buy your (.*) for my (.*) in (.*))" ),
-          .mMatches = {
-              StringParser::Matches::FromTo, StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } } } } };
+        { .mRegex   = std::regex( R"((?:\S+) (.+): Hi, I'd like to buy your (.*) for my (.*) in (.*))" ),
+          .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } } } },
+    { Language::French,
+      { { .mRegex = std::regex(
+              R"((?:\S+) (.+): Bonjour, je souhaiterais t'acheter (.*) pour (.*) dans la ligue (.*) [(]onglet de réserve \"(.*)[\"] ; ([0-9]*)e en partant de la gauche, ([0-9]*)e en partant du haut[)](.*))" ),
+          .mMatches = { StringParser::Matches::User,
+                        StringParser::Matches::Item,
+                        StringParser::Matches::Price,
+                        StringParser::Matches::League,
+                        StringParser::Matches::Stash,
+                        StringParser::Matches::PositionLeft,
+                        StringParser::Matches::PositionTop,
+                        StringParser::Matches::Comment } },
+        { .mRegex   = std::regex( R"((?:\S+) (.+): Bonjour, je souhaiterais t'acheter (.*) pour (.*) dans la ligue (.*))" ),
+          .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
+        { .mRegex = std::regex(
+              R"((?:\S+) (.+): Bonjour, je souhaiterais t'acheter (.*) dans la ligue (.*) [(]onglet de réserve \"(.*)[\"] ; ([0-9]*)e en partant de la gauche, ([0-9]*)e en partant du haut[)](.*))" ),
+          .mMatches = { StringParser::Matches::User,
+                        StringParser::Matches::Item,
+                        StringParser::Matches::League,
+                        StringParser::Matches::Stash,
+                        StringParser::Matches::PositionLeft,
+                        StringParser::Matches::PositionTop,
+                        StringParser::Matches::Comment } },
+        { .mRegex   = std::regex( R"((?:\S+) (.+): Salut, je voudrais t'acheter (.*) contre (.*) [(]ligue (.*)[)](.*))" ),
+          .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } } };
 
 //// Portuguese Trades
 // std::regex poeTradeRegexPOR =
@@ -58,15 +80,6 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
 // std::regex poeTradeUnpricedRegexGER =
 //     std::regex( "Hi, ich möchte '(.*)' in der (.*)-Liga kaufen [(]Truhenfach \"(.*)[\"]; Position: ([0-9]*) von links, ([0-9]*) von oben[)](.*)" );
 // std::regex poeTradeCurrencyRegexGER = std::regex( "Hi, ich möchte dein (.*) für mein (.*) in der (.*)-Liga kaufen(.*)" );
-//// French Trades
-// std::regex poeTradeRegexFRE = std::regex( "Bonjour, je souhaiterais t'acheter (.*) pour (.*) dans la ligue (.*) [(]onglet de réserve \"(.*)[\"] ; ([0-9]*)e en
-// partant "
-//                                           "de la gauche, ([0-9]*)e en partant du haut[)](.*)" );
-// std::regex poeTradeNoLocationRegexFRE = std::regex( "Bonjour, je souhaiterais t'acheter (.*) pour (.*) dans la ligue (.*)" );
-// std::regex poeTradeUnpricedRegexFRE = std::regex( "Bonjour, je souhaiterais t'acheter (.*) dans la ligue (.*) [(]onglet de réserve \"(.*)[\"] ; ([0-9]*)e en partant
-// "
-//                                                   "de la gauche, ([0-9]*)e en partant du haut[)](.*)" );
-// std::regex poeTradeCurrencyRegexFRE = std::regex( "Salut, je voudrais t'acheter (.*) contre (.*) [(]ligue (.*)[)](.*)" );
 //// Spanish Trades
 // std::regex poeTradeRegexSPA =
 //     std::regex( "Hola, quisiera comprar tu (.*) listado por (.*) en (.*) [(]pestaña de alijo \"(.*)[\"]; posición: izquierda ([0-9]*), arriba ([0-9]*)[)](.*)" );
@@ -88,15 +101,6 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
 // std::regex poeTradeUnpricedRegexKOR =
 //     std::regex( "안녕하세요, (.*) 리그의 (.*)[(]을[)]를 구매하고 싶습니다 [(]보관함 탭 \"(.*)[\"], 위치: 왼쪽 ([0-9]*), 상단 ([0-9]*)[)](.*)" );
 // std::regex poeTradeCurrencyRegexKOR = std::regex( "안녕하세요, (.*) 리그의 (.*)[(]을[)]를 (.*)[(]으[)]로 구매하고 싶습니다(.*)" );
-
-// poe1
-//  2024/09/10 23:16:05 1911664312 cff94598 [INFO Client 7976] @From
-//  PurpleRainn: Hi, I would like to buy your level 20 20% Power Charge On Critical Support listed for 38 chaos in Settlers (stash tab "¤¤";
-//  position: left 1, top 3)
-//  2025/01/23 17:00:49 683015812 3ef2336b [INFO Client 6548] @From
-//  Navarraso: Hi, I would like to buy your Heavy Belt listed for 1 exalted in Standard (stash tab "~price 1 exalted"; position: left 1, top 6)
-//  poe2
-//
 
 StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::string aLine, PoeVersion aVersion )
 {
@@ -150,9 +154,19 @@ bool StringParser::StringToLanguageAndIncoming( const std::string &aInputString,
         aTradeInfo.mLanguage = Language::English;
         aTradeInfo.mIncoming = true;
     }
-    else if( auto lPosTo = aInputString.find( "To" ); lPosTo != std::string::npos )
+    else if( aInputString.starts_with( "To" ) )
     {
         aTradeInfo.mLanguage = Language::English;
+        aTradeInfo.mIncoming = false;
+    }
+    else if( aInputString.starts_with( "De" ) )
+    {
+        aTradeInfo.mLanguage = Language::French;
+        aTradeInfo.mIncoming = true;
+    }
+    else if( aInputString.starts_with( "À" ) )
+    {
+        aTradeInfo.mLanguage = Language::French;
         aTradeInfo.mIncoming = false;
     }
     else
