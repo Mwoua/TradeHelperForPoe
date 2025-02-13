@@ -241,7 +241,17 @@ QWidget *TradeWidget::BuildTradePriceWidget()
         {
             if( lCurrency.size() > 0 )
             {
-                const std::string lCurrencyPath = CurrencyToImageString( CURRENCIES.at( mTrade.mLanguage ).at( lCurrency ), mPoeVersion );
+                std::string lCurrencyPath = "";
+
+                try
+                {
+                    lCurrencyPath = CurrencyToImageString( CURRENCIES.at( mTrade.mLanguage ).at( lCurrency ), mPoeVersion );
+                }
+                catch( const std::exception & )
+                {
+                    //fallback to english, some trades are sent in native language, other in english
+                    lCurrencyPath = CurrencyToImageString( CURRENCIES.at( Language::English ).at( lCurrency ), mPoeVersion );
+                }
 
                 auto *lLbCount = new QLabel( lAmount.c_str() );
                 auto *lLbImage = new QLabel();

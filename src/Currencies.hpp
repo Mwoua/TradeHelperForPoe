@@ -20,6 +20,7 @@ constexpr auto POE2_DIV    = ":/Poe2/divine";
 constexpr auto POE2_EX     = ":/Poe2/exalted";
 constexpr auto POE2_MIRROR = ":/Poe2/mirror";
 
+// Note: we can add a lot of the currencies here, but since the exchange market exist, its barely useful
 enum class eCurrencies
 {
     Undefined,
@@ -51,14 +52,24 @@ constexpr std::string CurrencyToImageString( eCurrencies aCurrency, PoeVersion a
     }
 }
 // IMPORTANT NOTE : Currency string must the exact same (case too) that the on sent by the trade website
-
-// For each language, list all relevant currencies and their associated icon
-// Note: we can add a lot of the currencies here, but since the exchange market exist, its barely useful
-
+// Minor note: for english, some trade are sent with full name some with short name
 const std::unordered_map<Language, std::unordered_map<std::string, eCurrencies>> CURRENCIES{ { Language::English,
-                                                                                               { { "alchemy", eCurrencies::alch },
-                                                                                                 { "annulment", eCurrencies::annul },
+                                                                                               { { "alch", eCurrencies::alch },
+                                                                                                 { "Orb of Alchemy", eCurrencies::alch },
+                                                                                                 { "annul", eCurrencies::annul },
+                                                                                                 { "Orb of Annulment", eCurrencies::annul },
                                                                                                  { "chaos", eCurrencies::chaos },
+                                                                                                 { "Chaos Orb", eCurrencies::chaos },
                                                                                                  { "divine", eCurrencies::divine },
+                                                                                                 { "Divine Orb", eCurrencies::divine },
                                                                                                  { "exalted", eCurrencies::exalt },
-                                                                                                 { "mirror", eCurrencies::mirror } } } };
+                                                                                                 { "Exalted Orb", eCurrencies::exalt },
+                                                                                                 { "mirror", eCurrencies::mirror },
+                                                                                                 { "Mirror of Kalandra", eCurrencies::mirror } } },
+                                                                                             { Language::French,
+                                                                                               { { "Orbe d'alchimie", eCurrencies::alch },
+                                                                                                 { "Orbe d'annulation", eCurrencies::annul },
+                                                                                                 { "Orbe du chaos", eCurrencies::chaos },
+                                                                                                 { "Orbe divin", eCurrencies::divine },
+                                                                                                 { "Orbe exalté", eCurrencies::exalt },
+                                                                                                 { "Miroir de Kalandra", eCurrencies::mirror } } } };
