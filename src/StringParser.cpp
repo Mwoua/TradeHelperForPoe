@@ -51,7 +51,8 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
         { .mRegex   = std::regex( R"((?:\S+) (.+): Salut, je voudrais t'acheter (.*) contre (.*) [(]ligue (.*)[)](.*))" ),
-          .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } } };
+          .mMatches = {
+              StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } } };
 
 //// Portuguese Trades
 // std::regex poeTradeRegexPOR =
@@ -114,7 +115,7 @@ StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::st
     }
 
     Trade lTrade;
-    if( !StringToLanguageAndIncoming( aLine, lTrade ) )
+    if( !StringToIncoming( aLine, lTrade ) )
     {
         return;
     }
@@ -122,23 +123,27 @@ StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::st
     std::smatch lMatches;
     try
     {
-        for( const auto &lRegexPair : REGEXES.at( lTrade.mLanguage ) )
+        for( auto const &[lLang, lRegexes] : REGEXES )
         {
-            if( std::regex_match( aLine, lMatches, lRegexPair.mRegex ) )
+            for( const auto &lRegexInfo : lRegexes )
             {
-                if( ( lMatches.size() - 1 ) != lRegexPair.mMatches.size() )
+                if( std::regex_match( aLine, lMatches, lRegexInfo.mRegex ) )
                 {
-                    // Robustness, should not happen
+                    if( ( lMatches.size() - 1 ) != lRegexInfo.mMatches.size() )
+                    {
+                        // Robustness, should not happen
+                        return;
+                    }
+                    lTrade.mLanguage     = lLang;
+                    lTrade.mEntireString = lMatches[0];
+                    lTrade.mEntireString.erase( 0, lTrade.mEntireString.find( ':' ) + 2 );
+                    for( auto i = 0U; i < lMatches.size() - 1; ++i )
+                    {
+                        MatchToTradeItem( lTrade, lRegexInfo.mMatches[i], lMatches[i + 1].str() );
+                    }
+                    TradeWidgetFactory::Create( aTradeWidgetDisplayer, std::move( lTrade ), aVersion );
                     return;
                 }
-                lTrade.mEntireString = lMatches[0];
-                lTrade.mEntireString.erase( 0, lTrade.mEntireString.find( ':' ) + 2 );
-                for( auto i = 0U; i < lMatches.size() - 1; ++i )
-                {
-                    MatchToTradeItem( lTrade, lRegexPair.mMatches[i], lMatches[i + 1].str() );
-                }
-                TradeWidgetFactory::Create( aTradeWidgetDisplayer, std::move( lTrade ), aVersion );
-                return;
             }
         }
     }
@@ -147,26 +152,22 @@ StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::st
         // log error?
     }
 }
-bool StringParser::StringToLanguageAndIncoming( const std::string &aInputString, Trade &aTradeInfo )
+bool StringParser::StringToIncoming( const std::string &aInputString, Trade &aTradeInfo )
 {
     if( aInputString.starts_with( "From" ) )
     {
-        aTradeInfo.mLanguage = Language::English;
         aTradeInfo.mIncoming = true;
     }
     else if( aInputString.starts_with( "To" ) )
     {
-        aTradeInfo.mLanguage = Language::English;
         aTradeInfo.mIncoming = false;
     }
     else if( aInputString.starts_with( "De" ) )
     {
-        aTradeInfo.mLanguage = Language::French;
         aTradeInfo.mIncoming = true;
     }
     else if( aInputString.starts_with( "À" ) )
     {
-        aTradeInfo.mLanguage = Language::French;
         aTradeInfo.mIncoming = false;
     }
     else

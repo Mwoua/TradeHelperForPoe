@@ -35,6 +35,6 @@ class StringParser
 
     static const std::unordered_map<Language, std::vector<StringParser::Regex>> REGEXES;
 
-    static bool StringToLanguageAndIncoming( const std::string &aInputString, Trade &aTradeInfo );
+    static bool StringToIncoming( const std::string &aInputString, Trade &aTradeInfo );
     static void MatchToTradeItem( Trade &aTradeInfo, Matches aMatchType, const std::string &aValue );
 };
