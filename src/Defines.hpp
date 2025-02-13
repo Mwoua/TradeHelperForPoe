@@ -14,7 +14,8 @@ enum class Language
     English,
     French,
     Spanish,
-    German
+    German,
+    BrazilianPortuguese
 };
 
 struct Trade
