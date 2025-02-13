@@ -77,7 +77,33 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::Comment } },
         { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hola, quiero comprar tu[(]s[)] (.*) por mi[(]s[)] (.*) en la liga (.*).(.*))" ),
           .mMatches = {
-              StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } } };
+              StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } },
+    { Language::German,
+      { { .mRegex = std::regex(
+              R"((?:\S+) (?:<.+> )?(.+): Hi, ich möchte '(.*)' zum angebotenen Preis von (.*) in der (.*)-Liga kaufen [(]Truhenfach \"(.*)[\"]; Position: ([0-9]*) von links, ([0-9]*) von oben[)](.*))" ),
+          .mMatches = { StringParser::Matches::User,
+                        StringParser::Matches::Item,
+                        StringParser::Matches::Price,
+                        StringParser::Matches::League,
+                        StringParser::Matches::Stash,
+                        StringParser::Matches::PositionLeft,
+                        StringParser::Matches::PositionTop,
+                        StringParser::Matches::Comment } },
+        { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hi, ich möchte '(.*)' zum angebotenen Preis von (.*) in der (.*)-Liga kaufen)" ),
+          .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
+        { .mRegex = std::regex(
+              R"((?:\S+) (?:<.+> )?(.+): Hi, ich möchte '(.*)' in der (.*)-Liga kaufen [(]Truhenfach \"(.*)[\"]; Position: ([0-9]*) von links, ([0-9]*) von oben[)](.*))" ),
+          .mMatches = { StringParser::Matches::User,
+                        StringParser::Matches::Item,
+                        StringParser::Matches::League,
+                        StringParser::Matches::Stash,
+                        StringParser::Matches::PositionLeft,
+                        StringParser::Matches::PositionTop,
+                        StringParser::Matches::Comment } },
+        { .mRegex = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hi, ich möchte dein (.*) für mein (.*) in der (.*)-Liga kaufen(.*))" ),
+          .mMatches =
+              { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } } };
+
 
 //// Portuguese Trades
 // std::regex poeTradeRegexPOR =
@@ -98,14 +124,6 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
 // std::regex poeTradeNoLocationRegexTHA = std::regex( "สวัสดี เราต้องการซื้อ (.*) ที่คุณตั้งขายไว้ในราคา (.*) ในลีก (.*)" );
 // std::regex poeTradeUnpricedRegexTHA = std::regex( "สวัสดี เราต้องการซื้อ (.*) ที่คุณตั้งขายไว้ในลีก (.*) [(]แท็บ \"(.*)[\"] ตำแหน่ง: ซ้าย ([0-9]*), บน ([0-9]*)[)](.*)" );
 // std::regex poeTradeCurrencyRegexTHA = std::regex( "สวัสดี เราต้องการแลก (.*) ของเรากับ (.*) ของคุณในลีก (.*).(.*)" );
-//// German Trades
-// std::regex poeTradeRegexGER = std::regex(
-//     "Hi, ich möchte '(.*)' zum angebotenen Preis von (.*) in der (.*)-Liga kaufen [(]Truhenfach \"(.*)[\"]; Position: ([0-9]*) von links, ([0-9]*) von oben[)](.*)"
-//     );
-// std::regex poeTradeNoLocationRegexGER = std::regex( "Hi, ich möchte '(.*)' zum angebotenen Preis von (.*) in der (.*)-Liga kaufen" );
-// std::regex poeTradeUnpricedRegexGER =
-//     std::regex( "Hi, ich möchte '(.*)' in der (.*)-Liga kaufen [(]Truhenfach \"(.*)[\"]; Position: ([0-9]*) von links, ([0-9]*) von oben[)](.*)" );
-// std::regex poeTradeCurrencyRegexGER = std::regex( "Hi, ich möchte dein (.*) für mein (.*) in der (.*)-Liga kaufen(.*)" );
 //// Japanese Trades ; Add exception for group order as league is first
 // std::regex poeTradeRegexJAP = std::regex(
 //     "こんにちは、(.*) リーグで (.*) で売っている、あなたの (.*) を購入したいです [(]スタッシュタブ \"(.*)[\"]; 位置: 左から ([0-9]*), 上から ([0-9]*)[)](.*)" );
@@ -191,6 +209,14 @@ bool StringParser::StringToIncoming( const std::string &aInputString, Trade &aTr
     else if( aInputString.starts_with( "Para" ) )
     {
         aTradeInfo.mIncoming = false;
+    }
+    else if( aInputString.starts_with( "An" ) )
+    {
+        aTradeInfo.mIncoming = false;
+    }
+    else if( aInputString.starts_with( "Von" ) )
+    {
+        aTradeInfo.mIncoming = true;
     }
     else
     {
