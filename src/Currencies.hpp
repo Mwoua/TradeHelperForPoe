@@ -72,4 +72,11 @@ const std::unordered_map<Language, std::unordered_map<std::string, eCurrencies>>
                                                                                                  { "Orbe du chaos", eCurrencies::chaos },
                                                                                                  { "Orbe divin", eCurrencies::divine },
                                                                                                  { "Orbe exalté", eCurrencies::exalt },
-                                                                                                 { "Miroir de Kalandra", eCurrencies::mirror } } } };
+                                                                                                 { "Miroir de Kalandra", eCurrencies::mirror } } },
+                                                                                             { Language::Spanish,
+                                                                                               { { "Orbe de alquimia", eCurrencies::alch },
+                                                                                                 { "Orbe de anulación", eCurrencies::annul },
+                                                                                                 { "Orbe de caos", eCurrencies::chaos },
+                                                                                                 { "Orbe divino", eCurrencies::divine },
+                                                                                                 { "Orbe exaltado", eCurrencies::exalt },
+                                                                                                 { "Espejo de Kalandra", eCurrencies::mirror } } } };

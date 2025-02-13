@@ -12,7 +12,8 @@ enum class PoeVersion
 enum class Language
 {
     English,
-    French
+    French,
+    Spanish
 };
 
 struct Trade
