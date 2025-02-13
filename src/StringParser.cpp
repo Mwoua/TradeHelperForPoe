@@ -7,7 +7,7 @@
 const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParser::REGEXES = {
     { Language::English,
       { { .mRegex = std::regex(
-              R"((?:\S+) (?:<.+> )?(.+): Hi, I would like to buy your (.*) listed for (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*))" ),
+              R"((?:<.+> )?(.+): Hi, I would like to buy your (.*) listed for (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::Price,
@@ -16,9 +16,9 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hi, I would like to buy your (.*) listed for (.*) in (.*))" ),
+        { .mRegex   = std::regex( R"((?:<.+> )?(.+): Hi, I would like to buy your (.*) listed for (.*) in (.*))" ),
           .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
-        { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hi, I would like to buy your (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*))" ),
+        { .mRegex   = std::regex( R"((?:<.+> )?(.+): Hi, I would like to buy your (.*) in (.*) [(]stash tab \"(.*)[\"]; position: left ([0-9]*), top ([0-9]*)[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::League,
@@ -26,11 +26,11 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hi, I'd like to buy your (.*) for my (.*) in (.*))" ),
+        { .mRegex   = std::regex( R"((?:<.+> )?(.+): Hi, I'd like to buy your (.*) for my (.*) in (.*))" ),
           .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } } } },
     { Language::French,
       { { .mRegex = std::regex(
-              R"((?:\S+) (?:<.+> )?(.+): Bonjour, je souhaiterais t'acheter (.*) pour (.*) dans la ligue (.*) [(]onglet de réserve \"(.*)[\"] ; ([0-9]*)e en partant de la gauche, ([0-9]*)e en partant du haut[)](.*))" ),
+              R"((?:<.+> )?(.+): Bonjour, je souhaiterais t'acheter (.*) pour (.*) dans la ligue (.*) [(]onglet de réserve \"(.*)[\"] ; ([0-9]*)e en partant de la gauche, ([0-9]*)e en partant du haut[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::Price,
@@ -39,10 +39,10 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Bonjour, je souhaiterais t'acheter (.*) pour (.*) dans la ligue (.*))" ),
+        { .mRegex   = std::regex( R"((?:<.+> )?(.+): Bonjour, je souhaiterais t'acheter (.*) pour (.*) dans la ligue (.*))" ),
           .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
         { .mRegex = std::regex(
-              R"((?:\S+) (?:<.+> )?(.+): Bonjour, je souhaiterais t'acheter (.*) dans la ligue (.*) [(]onglet de réserve \"(.*)[\"] ; ([0-9]*)e en partant de la gauche, ([0-9]*)e en partant du haut[)](.*))" ),
+              R"((?:<.+> )?(.+): Bonjour, je souhaiterais t'acheter (.*) dans la ligue (.*) [(]onglet de réserve \"(.*)[\"] ; ([0-9]*)e en partant de la gauche, ([0-9]*)e en partant du haut[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::League,
@@ -50,12 +50,12 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex = std::regex( R"((?:\S+) (?:<.+> )?(.+): Salut, je voudrais t'acheter (.*) contre (.*) [(]ligue (.*)[)](.*))" ),
+        { .mRegex = std::regex( R"((?:<.+> )?(.+): Salut, je voudrais t'acheter (.*) contre (.*) [(]ligue (.*)[)](.*))" ),
           .mMatches =
               { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } },
     { Language::Spanish,
       { { .mRegex = std::regex(
-              R"((?:\S+) (?:<.+> )?(.+): Hola, quisiera comprar tu (.*) listado por (.*) en (.*) [(]pestaña de alijo \"(.*)[\"]; posición: izquierda ([0-9]*), arriba ([0-9]*)[)](.*))" ),
+              R"((?:<.+> )?(.+): Hola, quisiera comprar tu (.*) listado por (.*) en (.*) [(]pestaña de alijo \"(.*)[\"]; posición: izquierda ([0-9]*), arriba ([0-9]*)[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::Price,
@@ -64,10 +64,10 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hola, quisiera comprar tu (.*) listado por (.*) en (.*))" ),
+        { .mRegex   = std::regex( R"((?:<.+> )?(.+): Hola, quisiera comprar tu (.*) listado por (.*) en (.*))" ),
           .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
         { .mRegex = std::regex(
-              R"((?:\S+) (?:<.+> )?(.+): Hola, quisiera comprar tu (.*) en (.*) [(]pestaña de alijo \"(.*)[\"]; posición: izquierda ([0-9]*), arriba ([0-9]*)[)](.*))" ),
+              R"((?:<.+> )?(.+): Hola, quisiera comprar tu (.*) en (.*) [(]pestaña de alijo \"(.*)[\"]; posición: izquierda ([0-9]*), arriba ([0-9]*)[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::League,
@@ -75,12 +75,12 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hola, quiero comprar tu[(]s[)] (.*) por mi[(]s[)] (.*) en la liga (.*).(.*))" ),
-          .mMatches = {
-              StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } },
+        { .mRegex = std::regex( R"((?:<.+> )?(.+): Hola, quiero comprar tu[(]s[)] (.*) por mi[(]s[)] (.*) en la liga (.*).(.*))" ),
+          .mMatches =
+              { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } },
     { Language::German,
       { { .mRegex = std::regex(
-              R"((?:\S+) (?:<.+> )?(.+): Hi, ich möchte '(.*)' zum angebotenen Preis von (.*) in der (.*)-Liga kaufen [(]Truhenfach \"(.*)[\"]; Position: ([0-9]*) von links, ([0-9]*) von oben[)](.*))" ),
+              R"((?:<.+> )?(.+): Hi, ich möchte '(.*)' zum angebotenen Preis von (.*) in der (.*)-Liga kaufen [(]Truhenfach \"(.*)[\"]; Position: ([0-9]*) von links, ([0-9]*) von oben[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::Price,
@@ -89,10 +89,10 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hi, ich möchte '(.*)' zum angebotenen Preis von (.*) in der (.*)-Liga kaufen)" ),
+        { .mRegex   = std::regex( R"((?:<.+> )?(.+): Hi, ich möchte '(.*)' zum angebotenen Preis von (.*) in der (.*)-Liga kaufen)" ),
           .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
         { .mRegex = std::regex(
-              R"((?:\S+) (?:<.+> )?(.+): Hi, ich möchte '(.*)' in der (.*)-Liga kaufen [(]Truhenfach \"(.*)[\"]; Position: ([0-9]*) von links, ([0-9]*) von oben[)](.*))" ),
+              R"((?:<.+> )?(.+): Hi, ich möchte '(.*)' in der (.*)-Liga kaufen [(]Truhenfach \"(.*)[\"]; Position: ([0-9]*) von links, ([0-9]*) von oben[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::League,
@@ -100,12 +100,12 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex = std::regex( R"((?:\S+) (?:<.+> )?(.+): Hi, ich möchte dein (.*) für mein (.*) in der (.*)-Liga kaufen(.*))" ),
+        { .mRegex = std::regex( R"((?:<.+> )?(.+): Hi, ich möchte dein (.*) für mein (.*) in der (.*)-Liga kaufen(.*))" ),
           .mMatches =
               { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } },
     { Language::BrazilianPortuguese,
       { { .mRegex = std::regex(
-              R"((?:\S+) (?:<.+> )?(.+): Olá, eu gostaria de comprar seu (.*) listado por (.*) na (.*) [(]aba do baú: \"(.*)[\"]; posição: esquerda ([0-9]*), topo ([0-9]*)[)](.*))" ),
+              R"((?:<.+> )?(.+): Olá, eu gostaria de comprar seu (.*) listado por (.*) na (.*) [(]aba do baú: \"(.*)[\"]; posição: esquerda ([0-9]*), topo ([0-9]*)[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::Price,
@@ -114,10 +114,10 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex   = std::regex( R"((?:\S+) (?:<.+> )?(.+): Olá, eu gostaria de comprar seu (.*) listado por (.*) na (.*))" ),
+        { .mRegex   = std::regex( R"((?:<.+> )?(.+): Olá, eu gostaria de comprar seu (.*) listado por (.*) na (.*))" ),
           .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
         { .mRegex = std::regex(
-              R"((?:\S+) (?:<.+> )?(.+): Olá, eu gostaria de comprar o seu item (.*) na (.*) [(]aba do baú: \"(.*)[\"]; posição: esquerda ([0-9]*), topo ([0-9]*)[)](.*))" ),
+              R"((?:<.+> )?(.+): Olá, eu gostaria de comprar o seu item (.*) na (.*) [(]aba do baú: \"(.*)[\"]; posição: esquerda ([0-9]*), topo ([0-9]*)[)](.*))" ),
           .mMatches = { StringParser::Matches::User,
                         StringParser::Matches::Item,
                         StringParser::Matches::League,
@@ -125,19 +125,35 @@ const std::unordered_map<Language, std::vector<StringParser::Regex>> StringParse
                         StringParser::Matches::PositionLeft,
                         StringParser::Matches::PositionTop,
                         StringParser::Matches::Comment } },
-        { .mRegex = std::regex( R"((?:\S+) (?:<.+> )?(.+): Olá, eu gostaria de comprar seu (.*) por meu\(s\) (.*) na (.*).(.*))" ),
+        { .mRegex = std::regex( R"((?:<.+> )?(.+): Olá, eu gostaria de comprar seu (.*) por meu\(s\) (.*) na (.*).(.*))" ),
           .mMatches =
-              { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } } };
+              { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } },
+    { Language::Russian,
+      { { .mRegex = std::regex(
+              R"((?:<.+> )?(.+): Здравствуйте, хочу купить у вас (.*) за (.*) в лиге (.*) [(]секция \"(.*)[\"]; позиция: ([0-9]*) столбец, ([0-9]*) ряд[)](.*))" ),
+          .mMatches = { StringParser::Matches::User,
+                        StringParser::Matches::Item,
+                        StringParser::Matches::Price,
+                        StringParser::Matches::League,
+                        StringParser::Matches::Stash,
+                        StringParser::Matches::PositionLeft,
+                        StringParser::Matches::PositionTop,
+                        StringParser::Matches::Comment } },
+        { .mRegex   = std::regex( R"((?:<.+> )?(.+): Здравствуйте, хочу купить у вас (.*) за (.*) в лиге (.*))" ),
+          .mMatches = { StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League } },
+        { .mRegex =
+              std::regex( R"((?:<.+> )?(.+): Здравствуйте, хочу купить у вас (.*) в лиге (.*) [(]секция \"(.*)[\"]; позиция: ([0-9]*) столбец, ([0-9]*) ряд[)](.*))" ),
+          .mMatches = { StringParser::Matches::User,
+                        StringParser::Matches::Item,
+                        StringParser::Matches::League,
+                        StringParser::Matches::Stash,
+                        StringParser::Matches::PositionLeft,
+                        StringParser::Matches::PositionTop,
+                        StringParser::Matches::Comment } },
+        { .mRegex   = std::regex( R"((?:<.+> )?(.+): Здравствуйте, хочу купить у вас (.*) за (.*) в лиге (.*).(.*))" ),
+          .mMatches = {
+              StringParser::Matches::User, StringParser::Matches::Item, StringParser::Matches::Price, StringParser::Matches::League, StringParser::Matches::Comment } } } } };
 
-
-
-//// Russian Trades
-// std::regex poeTradeRegexRUS =
-//     std::regex( "Здравствуйте, хочу купить у вас (.*) за (.*) в лиге (.*) [(]секция \"(.*)[\"]; позиция: ([0-9]*) столбец, ([0-9]*) ряд[)](.*)" );
-// std::regex poeTradeNoLocationRegexRUS = std::regex( "Здравствуйте, хочу купить у вас (.*) за (.*) в лиге (.*)" );
-// std::regex poeTradeUnpricedRegexRUS =
-//     std::regex( "Здравствуйте, хочу купить у вас (.*) в лиге (.*) [(]секция \"(.*)[\"]; позиция: ([0-9]*) столбец, ([0-9]*) ряд[)](.*)" );
-// std::regex poeTradeCurrencyRegexRUS = std::regex( "Здравствуйте, хочу купить у вас (.*) за (.*) в лиге (.*).(.*)" );
 //// Thai Trades
 // std::regex poeTradeRegexTHA = std::regex( "สวัสดี เราต้องการซื้อ (.*) ที่คุณตั้งขายไว้ในราคา (.*) ในลีก (.*) [(]แท็บ \"(.*)[\"] ตำแหน่ง: ซ้าย ([0-9]*), บน ([0-9]*)[)](.*)" );
 // std::regex poeTradeNoLocationRegexTHA = std::regex( "สวัสดี เราต้องการซื้อ (.*) ที่คุณตั้งขายไว้ในราคา (.*) ในลีก (.*)" );
@@ -207,33 +223,54 @@ StringParser::StringParser( TradeWidgetDisplayer &aTradeWidgetDisplayer, std::st
         // log error?
     }
 }
-bool StringParser::StringToIncoming( const std::string &aInputString, Trade &aTradeInfo )
+bool StringParser::StringToIncoming( std::string &aInputString, Trade &aTradeInfo )
 {
-    if( aInputString.starts_with( "From" ) )
+    auto CheckStart = []( std::string &aInputString, const std::string &aToFind )
+    {
+        if( aInputString.starts_with( aToFind ) )
+        {
+            aInputString = aInputString.substr( aToFind.size() + 1);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    };
+
+    if( CheckStart(aInputString,  "From" ) )
     {
         aTradeInfo.mIncoming = true;
     }
-    else if( aInputString.starts_with( "To" ) )
+    else if( CheckStart(aInputString,  "To" ) )
     {
         aTradeInfo.mIncoming = false;
     }
-    else if( aInputString.starts_with( "De" ) )
+    else if( CheckStart(aInputString,  "De" ) )
     {
         aTradeInfo.mIncoming = true;
     }
-    else if( aInputString.starts_with( "À" ) )
+    else if( CheckStart(aInputString,  "À" ) )
     {
         aTradeInfo.mIncoming = false;
     }
-    else if( aInputString.starts_with( "Para" ) )
+    else if( CheckStart(aInputString,  "Para" ) )
     {
         aTradeInfo.mIncoming = false;
     }
-    else if( aInputString.starts_with( "An" ) )
+    else if( CheckStart(aInputString,  "An" ) )
     {
         aTradeInfo.mIncoming = false;
     }
-    else if( aInputString.starts_with( "Von" ) )
+    else if( CheckStart(aInputString,  "Von" ) )
+    {
+        aTradeInfo.mIncoming = true;
+    }
+    else if( CheckStart(aInputString,  "Кому" ) )
+    {
+        aTradeInfo.mIncoming = false;
+    }
+    else if( CheckStart(aInputString,  "От кого" ) )
     {
         aTradeInfo.mIncoming = true;
     }
