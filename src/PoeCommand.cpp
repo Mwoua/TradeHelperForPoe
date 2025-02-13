@@ -7,12 +7,6 @@
 #include <thread>
 #include <vector>
 
-namespace
-{
-    // Local Private functions
-    bool BringPoeToForeground( PoeVersion aVersion );
-} // namespace
-
 void PoeCommand( const std::string &aCommand, PoeVersion aVersion, bool aSendCommand )
 {
     if( !BringPoeToForeground( aVersion ) )
@@ -107,28 +101,28 @@ void PoeCommandSearch( PoeVersion aVersion, const std::string &aToSearch )
     SendInput( lInputs.size(), lInputs.data(), sizeof( INPUT ) );
 }
 
-namespace
+bool BringPoeToForeground( PoeVersion aVersion )
 {
-    bool BringPoeToForeground( PoeVersion aVersion )
-    {
 #ifdef _DEBUG
-        if( auto lHandle = FindWindow( NULL, R"(*nouveau 1 - Notepad++)" ) )
+    if( auto lHandle = FindWindow( NULL, R"(*nouveau 1 - Notepad++)" ) )
 #else
-        if( auto lHandle = FindWindow( NULL, ( aVersion == PoeVersion::Poe1 ) ? "Path of Exile" : "Path of Exile 2" ) )
+    if( auto lHandle = FindWindow( NULL, ( aVersion == PoeVersion::Poe1 ) ? "Path of Exile" : "Path of Exile 2" ) )
 #endif
-        {
-            return SetForegroundWindow( lHandle );
-        }
-        else
-        {
-            return false;
-        }
+    {
+        return SetForegroundWindow( lHandle );
     }
-} // namespace
+    else
+    {
+        return false;
+    }
+}
+
 #else
 void PoeCommand( const std::string &aCommand, PoeVersion aVersion, bool aSendCommand )
 {
     // TODO
 }
 void PoeCommandSearch( PoeVersion aVersion, const std::string &aToSearch ) {}
+
+bool BringPoeToForeground( PoeVersion aVersion ) { return false; }
 #endif

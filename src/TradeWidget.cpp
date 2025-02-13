@@ -110,7 +110,14 @@ QLayout *TradeWidget::SetupUiFirstRow()
     auto *lPBClose = new QPushButton( QIcon( ":/TradeHelper/Close" ), "" );
     lFirstRowLayout->addWidget( lPBClose );
     lPBClose->setToolTip( "Close this trade widget" );
-    connect( lPBClose, &QPushButton::clicked, this, &QWidget::deleteLater );
+    connect( lPBClose,
+             &QPushButton::clicked,
+             this,
+             [this]()
+             {
+                 BringPoeToForeground( mPoeVersion );
+                 deleteLater();
+             } );
 
     return lFirstRowLayout;
 }
@@ -249,7 +256,7 @@ QWidget *TradeWidget::BuildTradePriceWidget()
                 }
                 catch( const std::exception & )
                 {
-                    //fallback to english, some trades are sent in native language, other in english
+                    // fallback to english, some trades are sent in native language, other in english
                     lCurrencyPath = CurrencyToImageString( CURRENCIES.at( Language::English ).at( lCurrency ), mPoeVersion );
                 }
 
