@@ -100,4 +100,11 @@ const std::unordered_map<Language, std::unordered_map<std::string, eCurrencies>>
                                                                                                  { "Сфера хаоса", eCurrencies::chaos },
                                                                                                  { "Божественная сфера", eCurrencies::divine },
                                                                                                  { "Сфера возвышения", eCurrencies::exalt },
-                                                                                                 { "Зеркало Каландры", eCurrencies::mirror } } } };
+                                                                                                 { "Зеркало Каландры", eCurrencies::mirror } } },
+                                                                                             { Language::Thai,
+                                                                                               { { "Orb of Alchemy", eCurrencies::alch },
+                                                                                                 { "Orb of Annulment", eCurrencies::annul },
+                                                                                                 { "Chaos Orb", eCurrencies::chaos },
+                                                                                                 { "Divine Orb", eCurrencies::divine },
+                                                                                                 { "Exalted Orb", eCurrencies::exalt },
+                                                                                                 { "Mirror of Kalandra", eCurrencies::mirror } } } };
