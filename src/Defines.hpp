@@ -13,7 +13,8 @@ enum class Language
 {
     English,
     French,
-    Spanish
+    Spanish,
+    German
 };
 
 struct Trade
