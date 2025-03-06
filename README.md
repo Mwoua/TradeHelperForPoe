@@ -15,3 +15,5 @@ Incoming and outgoing trade:
 ## Install
 
 Extract the zip file and run. You may need [visual studio redistributables](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+
+The game needs to be in windowed or windowed fullscreen
