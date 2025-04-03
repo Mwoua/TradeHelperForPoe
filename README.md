@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a remake of [TraderForPoe](https://github.com/hexadezi/TraderForPoe)
+This is a remake of [TraderForPoe](https://github.com/hexadezi/TraderForPoe), but for both Path Of Exile 1 and 2
 
 Small overlay to easily manager trade. It checks incoming and outgoing whispers for trade request and display a small widget with buttons to invite, start the trade, go to hideout, etc...
 
