@@ -24,4 +24,3 @@ The game needs to be in windowed or windowed fullscreen
 - Enter the full path to your Client.txt
 - Resize and position the widget circled in red. It will be its position when you actually receive a trade
 - Optional: configure your "Thanks", "Busy", "Custom message"
-- 
